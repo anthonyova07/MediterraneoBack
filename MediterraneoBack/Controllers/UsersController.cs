@@ -75,7 +75,7 @@ namespace MediterraneoBack.Controllers
                 UsersHelper.CreateUserASP(user.UserName, "User");
                 return RedirectToAction("Index");
             }
-
+            //Comentario de prueba
             ViewBag.CityId = new SelectList(
                 db.Cities.OrderBy(d => d.Name),
                 "CityId",
