@@ -47,6 +47,8 @@ namespace MediterraneoBack.Models
 
         public virtual ICollection<User> Users { get; set; }
 
+        public virtual ICollection<Category> Categories { get; set; }
+
         //public virtual Category Category { get; set; }
 
         public IEnumerable<Department> Departments { get; set; }

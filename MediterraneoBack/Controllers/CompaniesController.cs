@@ -11,6 +11,7 @@ using MediterraneoBack.Models;
 
 namespace MediterraneoBack.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CompaniesController : Controller
     {
         private MediterraneoContext db = new MediterraneoContext();

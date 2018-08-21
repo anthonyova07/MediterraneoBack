@@ -10,7 +10,8 @@ using MediterraneoBack.Classes;
 using MediterraneoBack.Models;
 
 namespace MediterraneoBack.Controllers
-{   [Authorize]
+{
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private MediterraneoContext db = new MediterraneoContext();
@@ -104,7 +105,7 @@ namespace MediterraneoBack.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
+            var user = db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -123,16 +124,24 @@ namespace MediterraneoBack.Controllers
         public ActionResult Edit([Bind(Include = "UserId,UserName,FirstName,LastName,Phone,Address,Photo,DepartmentId,CityId,CompanyId")] User user)
         {
             if (ModelState.IsValid)
-            {
-                var pic = string.Empty;
-                var folder = "~/Content/Users";
-
+            {                
                 if (user.PhotoFile != null)
                 {
-                    pic = FilesHelper.UploadPhoto(user.PhotoFile, folder);
-                    pic = string.Format("{0}/{1}", folder, pic);
+                    var file = string.Format("{0}.png", user.UserId);
+                    var folder = "~/Content/Users";
+                    var response = FilesHelper.UploadPhoto(user.PhotoFile, folder);
+                    user.Photo = string.Format("{0}/{1}", folder, file);
                 }
-                user.Photo = pic;
+
+                var db2 = new MediterraneoContext();
+                var currentUser = db2.Users.Find(user.UserId);
+                if (currentUser.UserName != user.UserName)
+                {
+                    UsersHelper.UpdateUserName(currentUser.UserName, user.UserName);
+                }
+                db2.Dispose();            
+
+                //user.Photo = pic;
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -169,7 +178,8 @@ namespace MediterraneoBack.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
+            //Se cambio User por var
+            var user = db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -182,9 +192,11 @@ namespace MediterraneoBack.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            User user = db.Users.Find(id);
+            //Se cambio User por var
+            var user = db.Users.Find(id);
             db.Users.Remove(user);
             db.SaveChanges();
+            UsersHelper.DeleteUser(user.UserName);
             return RedirectToAction("Index");
         }
 

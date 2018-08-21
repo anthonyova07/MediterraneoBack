@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediterraneoBack.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,14 +9,17 @@ namespace MediterraneoBack.Controllers
 {
     public class HomeController : Controller
     {
+        private MediterraneoContext db = new MediterraneoContext();
+
         public ActionResult Index()
         {
-            return View();
+            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+            return View(user);
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Mediterraneo Internacional SRL";
 
             return View();
         }

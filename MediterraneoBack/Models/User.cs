@@ -54,7 +54,7 @@ namespace MediterraneoBack.Models
         [Required(ErrorMessage = "The field {0} is required")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a {0}")]
         [Display(Name = "Company")]
-        public int? CompanyId { get; set; }
+        public int CompanyId { get; set; }
 
         
         [Display(Name = "User")]
