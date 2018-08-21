@@ -46,6 +46,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">VENDEDOR<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Categorias", "Index", "Categories")</li>
+                                <li>@Html.ActionLink("Impuestos", "Index", "Taxes")</li>
                             </ul>
                         </li>
 
@@ -60,7 +61,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Date - Mediterraneo Internacional SRL.</p>
+            <p>&copy; @DateTime.Now.Year - Mediterraneo Internacional SRL.</p>
         </footer>
     </div>
 

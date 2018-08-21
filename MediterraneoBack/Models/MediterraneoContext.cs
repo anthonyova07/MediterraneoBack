@@ -31,6 +31,10 @@ namespace MediterraneoBack.Models
 
         public System.Data.Entity.DbSet<MediterraneoBack.Models.Category> Categories { get; set; }
 
+        public System.Data.Entity.DbSet<MediterraneoBack.Models.Tax> Taxes { get; set; }
+
+        public System.Data.Entity.DbSet<MediterraneoBack.Models.Product> Products { get; set; }
+
         //public DbSet<Customer> Customers { get; set; }
 
         //public DbSet<Inventory> Inventories { get; set; }

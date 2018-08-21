@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<MediterraneoBack.Models.Product>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Productos";
 }
 
-<h2>Index</h2>
+<h2>Productos</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -30,13 +30,13 @@
             @Html.DisplayNameFor(model => model.Price)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Detail_price)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Image)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Remarks)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Stock)
         </th>
         <th></th>
     </tr>
@@ -62,13 +62,13 @@
             @Html.DisplayFor(modelItem => item.Price)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Detail_price)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Image)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Remarks)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Stock)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ProductId }) |
