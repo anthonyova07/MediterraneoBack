@@ -49,22 +49,31 @@ namespace MediterraneoBack.Models
         [Required(ErrorMessage = "The field {0} is required")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
+        [Display(Name = "Detail Price")]
         public decimal Detail_price { get; set; }
 
         [DataType(DataType.ImageUrl)]
         public string Image { get; set; }
 
         [NotMapped]
+        [Display(Name = "Image")]
         public HttpPostedFileBase ImageFile { get; set; }
 
         [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:D}", ApplyFormatInEditMode = false)]
         
+        public int Stock { get { return Inventories.Sum(i => i.Stock); } }
+
         public virtual Company Company { get; set; }
 
         public virtual Category Category { get; set; }
 
         public virtual Tax Tax { get; set; }
+
+        public virtual ICollection<Inventory> Inventories { get; set; }
+
 
     }
 }

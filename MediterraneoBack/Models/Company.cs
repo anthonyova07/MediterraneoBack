@@ -53,13 +53,16 @@ namespace MediterraneoBack.Models
 
         public virtual ICollection<Product> Products { get; set; }
 
+        public virtual ICollection<Warehouse> Warehouses { get; set; }
+
         //public virtual Category Category { get; set; }
 
         public IEnumerable<Department> Departments { get; set; }
 
         public IEnumerable<City> Cities { get; set; }
 
-        
+        public virtual ICollection<Salesperson> Salespersons { get; set; }
+
 
         //public virtual ICollection<Category> Categories { get; set; }
 

@@ -15,7 +15,7 @@ namespace MediterraneoBack.Models
 
         [Required(ErrorMessage ="The field {0} is required")]
         [MaxLength(50, ErrorMessage ="The field {0} must be maximum {1} characters length")]
-        [Display (Name = "Department")]
+        [Display (Name = "Regiones")]
         [Index("Department_Name_Index", IsUnique = true)]
         public string Name { get; set; }
 
@@ -25,6 +25,11 @@ namespace MediterraneoBack.Models
 
         public virtual ICollection<User> Users { get; set; }
 
+        public virtual ICollection<Warehouse> Warehouses { get; set; }
+
+        public virtual ICollection<Salesperson> Salespersons { get; set; }
+
+
 
         //[OneToMany(CascadeOperations = CascadeOperation.All)]
         //public List<City> Cities { get; set; }
@@ -32,6 +37,6 @@ namespace MediterraneoBack.Models
         //[OneToMany(CascadeOperations = CascadeOperation.All)]
         //public List<Customer> Customers { get; set; }
 
-        
+
     }
 }

@@ -26,6 +26,7 @@ namespace MediterraneoBack
         {
             UsersHelper.CheckRole("Admin");
             UsersHelper.CheckRole("User");
+            UsersHelper.CheckRole("Salesperson");
             UsersHelper.CheckSuperUser();
         }
 

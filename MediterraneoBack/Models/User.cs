@@ -42,17 +42,17 @@ namespace MediterraneoBack.Models
 
         
         [Required(ErrorMessage = "The field {0} is required")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a {0}")]
-        [Display(Name = "Department")]
+        [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
+        [Display(Name = "Regiones")]
         public int? DepartmentId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a {0}")]
+        [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
         [Display(Name = "City")]
         public int? CityId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a {0}")]
+        [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
         [Display(Name = "Company")]
         public int CompanyId { get; set; }
 

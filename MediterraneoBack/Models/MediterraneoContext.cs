@@ -21,19 +21,23 @@ namespace MediterraneoBack.Models
 
         public DbSet<Department> Departments { get; set; }
 
-        //public DbSet<Category> Categories { get; set; }
-
         public DbSet<City> Cities { get; set; }
 
         public DbSet<Company> Companies { get; set; }
 
-        public System.Data.Entity.DbSet<MediterraneoBack.Models.User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
 
-        public System.Data.Entity.DbSet<MediterraneoBack.Models.Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
-        public System.Data.Entity.DbSet<MediterraneoBack.Models.Tax> Taxes { get; set; }
+        public DbSet<Tax> Taxes { get; set; }
 
-        public System.Data.Entity.DbSet<MediterraneoBack.Models.Product> Products { get; set; }
+        public DbSet<Product> Products { get; set; }
+
+        public DbSet<Warehouse> Warehouses { get; set; }
+
+        public DbSet<Inventory> Inventories { get; set; }
+
+        public System.Data.Entity.DbSet<MediterraneoBack.Models.Salesperson> Salespersons { get; set; }
 
         //public DbSet<Customer> Customers { get; set; }
 

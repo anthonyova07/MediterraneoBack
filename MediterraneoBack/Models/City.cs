@@ -19,7 +19,7 @@ namespace MediterraneoBack.Models
 
         [Required(ErrorMessage = "The field {0} is required")]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
-        [Display(Name = "Department")]
+        [Display(Name = "Regiones")]
         public int DepartmentId { get; set; }
         public IEnumerable<Department> Departments { get; set; }
 
@@ -28,6 +28,10 @@ namespace MediterraneoBack.Models
         public virtual ICollection<Company> Companies { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
+
+        public virtual ICollection<Warehouse> Warehouses { get; set; }
+
+        public virtual ICollection<Salesperson> Salespersons { get; set; }
 
         //[ManyToOne]
         //public Department Department { get; set; }

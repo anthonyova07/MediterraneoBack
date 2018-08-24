@@ -219,8 +219,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\SalespersonsController.cs" />
     <Compile Include="Controllers\TaxesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\WarehousesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -268,6 +270,30 @@
     <Compile Include="Migrations\201808210402349_Initial10.Designer.cs">
       <DependentUpon>201808210402349_Initial10.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808212132136_Initial11.cs" />
+    <Compile Include="Migrations\201808212132136_Initial11.Designer.cs">
+      <DependentUpon>201808212132136_Initial11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808220410361_Initial12.cs" />
+    <Compile Include="Migrations\201808220410361_Initial12.Designer.cs">
+      <DependentUpon>201808220410361_Initial12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808230304233_Initial13.cs" />
+    <Compile Include="Migrations\201808230304233_Initial13.Designer.cs">
+      <DependentUpon>201808230304233_Initial13.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808231905321_Initial14.cs" />
+    <Compile Include="Migrations\201808231905321_Initial14.Designer.cs">
+      <DependentUpon>201808231905321_Initial14.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808240326269_Initial15.cs" />
+    <Compile Include="Migrations\201808240326269_Initial15.Designer.cs">
+      <DependentUpon>201808240326269_Initial15.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808240346118_Initial16.cs" />
+    <Compile Include="Migrations\201808240346118_Initial16.Designer.cs">
+      <DependentUpon>201808240346118_Initial16.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -275,13 +301,16 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\LoginRequest.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MediterraneoContext.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Response.cs" />
+    <Compile Include="Models\Salesperson.cs" />
     <Compile Include="Models\Tax.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Warehouse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -408,9 +437,20 @@
     <Content Include="Views\Categories\Details.cshtml" />
     <Content Include="Views\Categories\Edit.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\Warehouses\Create.cshtml" />
+    <Content Include="Views\Warehouses\Delete.cshtml" />
+    <Content Include="Views\Warehouses\Details.cshtml" />
+    <Content Include="Views\Warehouses\Edit.cshtml" />
+    <Content Include="Views\Warehouses\Index.cshtml" />
+    <Content Include="Views\Salespersons\Create.cshtml" />
+    <Content Include="Views\Salespersons\Delete.cshtml" />
+    <Content Include="Views\Salespersons\Details.cshtml" />
+    <Content Include="Views\Salespersons\Edit.cshtml" />
+    <Content Include="Views\Salespersons\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Products\" />
     <Folder Include="Controllers\API\" />
   </ItemGroup>
   <ItemGroup>
@@ -459,6 +499,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808210402349_Initial10.resx">
       <DependentUpon>201808210402349_Initial10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808212132136_Initial11.resx">
+      <DependentUpon>201808212132136_Initial11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808220410361_Initial12.resx">
+      <DependentUpon>201808220410361_Initial12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808230304233_Initial13.resx">
+      <DependentUpon>201808230304233_Initial13.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808231905321_Initial14.resx">
+      <DependentUpon>201808231905321_Initial14.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808240326269_Initial15.resx">
+      <DependentUpon>201808240326269_Initial15.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808240346118_Initial16.resx">
+      <DependentUpon>201808240346118_Initial16.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
