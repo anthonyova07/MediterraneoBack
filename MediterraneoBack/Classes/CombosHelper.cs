@@ -17,10 +17,22 @@ namespace MediterraneoBack.Classes
             departments.Add(new Department
             {
                 DepartmentId = 0,
-                Name = "Select a Department",
+                Name = "[Select a Region]",
             });
 
             return departments.OrderBy(d => d.Name).ToList();
+
+        }
+
+        internal static List<Product> GetProducts(int companyId)
+        {
+            var products = db.Products.Where(p => p.CompanyId == companyId).ToList();
+            products.Add(new Product
+            {
+                ProductId = 0,
+                Description = "[Select a product...]",
+            });
+            return products.OrderBy(p => p.Description).ToList();
 
         }
 
@@ -71,6 +83,17 @@ namespace MediterraneoBack.Classes
                 Name = "[Select a city]",
             });
             return cities.OrderBy(d => d.Name).ToList();
+        }
+
+        public static List<Salesperson> GetCustomers(int companyId)
+        {
+            var salespersons = db.Salespersons.Where(c => c.CompanyId == companyId).ToList();
+            salespersons.Add(new Salesperson
+            {
+                SalespersonId = 0,
+                FirstName = "[Select a Client]",
+            });
+            return salespersons.OrderBy(d => d.FirstName).ThenBy(c => c.LastName).ToList();
         }
     }
 }

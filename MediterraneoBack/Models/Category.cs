@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,8 +23,10 @@ namespace MediterraneoBack.Models
         [Display(Name = "Company")]
         public int CompanyId { get; set; }
 
+        [JsonIgnore]
         public virtual Company Company { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Product> Products { get; set; }
 
     }

@@ -6,10 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MediterraneoBack.Classes;
 using MediterraneoBack.Models;
 
 namespace MediterraneoBack.Controllers
 {
+    [Authorize(Roles ="User")]
     public class SalespersonsController : Controller
     {
         private MediterraneoContext db = new MediterraneoContext();
@@ -17,7 +19,8 @@ namespace MediterraneoBack.Controllers
         // GET: Salespersons
         public ActionResult Index()
         {
-            var salespersons = db.Salespersons.Include(s => s.City).Include(s => s.Company).Include(s => s.Department);
+            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+            var salespersons = db.Salespersons.Where(s => s.CompanyId == user.CompanyId).Include(s => s.City).Include(s => s.Department);
             return View(salespersons.ToList());
         }
 
@@ -28,7 +31,8 @@ namespace MediterraneoBack.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Salesperson salesperson = db.Salespersons.Find(id);
+            var salesperson = db.Salespersons.Find(id);
+
             if (salesperson == null)
             {
                 return HttpNotFound();
@@ -39,10 +43,11 @@ namespace MediterraneoBack.Controllers
         // GET: Salespersons/Create
         public ActionResult Create()
         {
-            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name");
-            ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "Name");
-            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name");
-            return View();
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");
+            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name");
+            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+            var salesperson = new Salesperson { CompanyId = user.CompanyId, };
+            return View(salesperson);
         }
 
         // POST: Salespersons/Create
@@ -50,18 +55,18 @@ namespace MediterraneoBack.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SalespersonId,CompanyId,UserName,FirstName,LastName,Phone,Address,DepartmentId,CityId")] Salesperson salesperson)
+        public ActionResult Create( Salesperson salesperson)
         {
             if (ModelState.IsValid)
             {
                 db.Salespersons.Add(salesperson);
                 db.SaveChanges();
+                UsersHelper.CreateUserASP(salesperson.UserName, "Salesperson");
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", salesperson.CityId);
-            ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "Name", salesperson.CompanyId);
-            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name", salesperson.DepartmentId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", salesperson.CityId);
+            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", salesperson.DepartmentId);
             return View(salesperson);
         }
 
@@ -72,14 +77,14 @@ namespace MediterraneoBack.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Salesperson salesperson = db.Salespersons.Find(id);
+            var  salesperson = db.Salespersons.Find(id);
+
             if (salesperson == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", salesperson.CityId);
-            ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "Name", salesperson.CompanyId);
-            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name", salesperson.DepartmentId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", salesperson.CityId);
+            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", salesperson.DepartmentId);
             return View(salesperson);
         }
 
@@ -88,17 +93,17 @@ namespace MediterraneoBack.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "SalespersonId,CompanyId,UserName,FirstName,LastName,Phone,Address,DepartmentId,CityId")] Salesperson salesperson)
+        public ActionResult Edit(Salesperson salesperson)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(salesperson).State = EntityState.Modified;
                 db.SaveChanges();
+                // TODO: Validate when the salesperson email change
                 return RedirectToAction("Index");
             }
-            ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", salesperson.CityId);
-            ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "Name", salesperson.CompanyId);
-            ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name", salesperson.DepartmentId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", salesperson.CityId);
+            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", salesperson.DepartmentId);
             return View(salesperson);
         }
 
@@ -109,7 +114,8 @@ namespace MediterraneoBack.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Salesperson salesperson = db.Salespersons.Find(id);
+            var salesperson = db.Salespersons.Find(id);
+
             if (salesperson == null)
             {
                 return HttpNotFound();
@@ -123,8 +129,10 @@ namespace MediterraneoBack.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Salesperson salesperson = db.Salespersons.Find(id);
+
             db.Salespersons.Remove(salesperson);
             db.SaveChanges();
+            UsersHelper.DeleteUser(salesperson.UserName);
             return RedirectToAction("Index");
         }
 

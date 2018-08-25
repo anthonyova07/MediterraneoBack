@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<MediterraneoBack.Models.Order>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Orders";
 }
 
-<h2>Index</h2>
+<h2>Ordenes</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,13 +12,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CompanyId)
+            @Html.DisplayNameFor(model => model.Salesperson.FullName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StateId)
+            @Html.DisplayNameFor(model => model.State.Description)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Date)
@@ -32,13 +29,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.CompanyId)
+            @Html.DisplayFor(modelItem => item.Salesperson.FullName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CustomerId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StateId)
+            @Html.DisplayFor(modelItem => item.State.Description)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Date)

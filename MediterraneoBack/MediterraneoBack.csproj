@@ -208,21 +208,27 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Classes\CombosHelper.cs" />
+    <Compile Include="Classes\DBHelper.cs" />
     <Compile Include="Classes\FilesHelper.cs" />
     <Compile Include="Classes\MailHelper.cs" />
+    <Compile Include="Classes\MovementsHelper.cs" />
+    <Compile Include="Classes\UserResponse.cs" />
     <Compile Include="Classes\UsersHelper.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CategoriesController.cs" />
-    <Compile Include="Controllers\CitiesController.cs" />
-    <Compile Include="Controllers\CompaniesController.cs" />
-    <Compile Include="Controllers\DepartmentsController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\ProductsController.cs" />
-    <Compile Include="Controllers\SalespersonsController.cs" />
-    <Compile Include="Controllers\TaxesController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Controllers\WarehousesController.cs" />
+    <Compile Include="Controllers\API\UsersController.cs" />
+    <Compile Include="Controllers\MVC\AccountController.cs" />
+    <Compile Include="Controllers\MVC\CategoriesController.cs" />
+    <Compile Include="Controllers\MVC\CitiesController.cs" />
+    <Compile Include="Controllers\MVC\CompaniesController.cs" />
+    <Compile Include="Controllers\MVC\DepartmentsController.cs" />
+    <Compile Include="Controllers\MVC\HomeController.cs" />
+    <Compile Include="Controllers\MVC\ManageController.cs" />
+    <Compile Include="Controllers\MVC\OrdersController.cs" />
+    <Compile Include="Controllers\MVC\ProductsController.cs" />
+    <Compile Include="Controllers\MVC\SalespersonsController.cs" />
+    <Compile Include="Controllers\MVC\TaxesController.cs" />
+    <Compile Include="Controllers\MVC\UsersController.cs" />
+    <Compile Include="Controllers\MVC\WarehousesController.cs" />
+    <Compile Include="Controllers\MVC\StatesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -294,8 +300,37 @@
     <Compile Include="Migrations\201808240346118_Initial16.Designer.cs">
       <DependentUpon>201808240346118_Initial16.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808240515160_Initial17.cs" />
+    <Compile Include="Migrations\201808240515160_Initial17.Designer.cs">
+      <DependentUpon>201808240515160_Initial17.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808241555243_Initial18.cs" />
+    <Compile Include="Migrations\201808241555243_Initial18.Designer.cs">
+      <DependentUpon>201808241555243_Initial18.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808241633425_Initial19.cs" />
+    <Compile Include="Migrations\201808241633425_Initial19.Designer.cs">
+      <DependentUpon>201808241633425_Initial19.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808241641453_Initial20.cs" />
+    <Compile Include="Migrations\201808241641453_Initial20.Designer.cs">
+      <DependentUpon>201808241641453_Initial20.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808241906460_Initial21.cs" />
+    <Compile Include="Migrations\201808241906460_Initial21.Designer.cs">
+      <DependentUpon>201808241906460_Initial21.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808242052340_Initial22.cs" />
+    <Compile Include="Migrations\201808242052340_Initial22.Designer.cs">
+      <DependentUpon>201808242052340_Initial22.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808251715161_Initial23.cs" />
+    <Compile Include="Migrations\201808251715161_Initial23.Designer.cs">
+      <DependentUpon>201808251715161_Initial23.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AddProductView.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Company.cs" />
@@ -305,9 +340,14 @@
     <Compile Include="Models\LoginRequest.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MediterraneoContext.cs" />
+    <Compile Include="Models\NewOrderView.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderDetail.cs" />
+    <Compile Include="Models\OrderDetailTmp.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\Salesperson.cs" />
+    <Compile Include="Models\State.cs" />
     <Compile Include="Models\Tax.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Warehouse.cs" />
@@ -447,11 +487,16 @@
     <Content Include="Views\Salespersons\Details.cshtml" />
     <Content Include="Views\Salespersons\Edit.cshtml" />
     <Content Include="Views\Salespersons\Index.cshtml" />
+    <Content Include="Views\States\Create.cshtml" />
+    <Content Include="Views\States\Delete.cshtml" />
+    <Content Include="Views\States\Details.cshtml" />
+    <Content Include="Views\States\Edit.cshtml" />
+    <Content Include="Views\States\Index.cshtml" />
+    <Content Include="Views\Orders\AddProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Products\" />
-    <Folder Include="Controllers\API\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -517,6 +562,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808240346118_Initial16.resx">
       <DependentUpon>201808240346118_Initial16.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808240515160_Initial17.resx">
+      <DependentUpon>201808240515160_Initial17.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808241555243_Initial18.resx">
+      <DependentUpon>201808241555243_Initial18.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808241633425_Initial19.resx">
+      <DependentUpon>201808241633425_Initial19.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808241641453_Initial20.resx">
+      <DependentUpon>201808241641453_Initial20.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808241906460_Initial21.resx">
+      <DependentUpon>201808241906460_Initial21.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808242052340_Initial22.resx">
+      <DependentUpon>201808242052340_Initial22.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808251715161_Initial23.resx">
+      <DependentUpon>201808251715161_Initial23.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

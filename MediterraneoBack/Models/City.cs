@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -23,14 +24,19 @@ namespace MediterraneoBack.Models
         public int DepartmentId { get; set; }
         public IEnumerable<Department> Departments { get; set; }
 
+        [JsonIgnore]
         public virtual Department Department { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Company> Companies { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<User> Users { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Warehouse> Warehouses { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Salesperson> Salespersons { get; set; }
 
         //[ManyToOne]

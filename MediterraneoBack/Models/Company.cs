@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -41,18 +42,25 @@ namespace MediterraneoBack.Models
         [NotMapped]
         public HttpPostedFileBase LogoFile { get; set; }
 
+        [JsonIgnore]
         public virtual Department Department { get; set; }
 
+        [JsonIgnore]
         public virtual City City { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<User> Users { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Category> Categories { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Tax> Taxes { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Product> Products { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Warehouse> Warehouses { get; set; }
 
         //public virtual Category Category { get; set; }
@@ -62,6 +70,10 @@ namespace MediterraneoBack.Models
         public IEnumerable<City> Cities { get; set; }
 
         public virtual ICollection<Salesperson> Salespersons { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
+
+
 
 
         //public virtual ICollection<Category> Categories { get; set; }

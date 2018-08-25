@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -45,7 +46,7 @@ namespace MediterraneoBack.Models
 
         [Required(ErrorMessage = "The field {0} is required")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a {0}")]
-        [Display(Name = "Department")]
+        [Display(Name = "Region")]
         public int DepartmentId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
@@ -53,14 +54,19 @@ namespace MediterraneoBack.Models
         [Display(Name = "City")]
         public int CityId { get; set; }
 
-        [Display(Name = "Vendedor")]
+        [Display(Name = "Cliente")]
         public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
 
+        
         public virtual Department Department { get; set; }
 
+        
         public virtual City City { get; set; }
 
+       
         public virtual Company Company { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
 
     }
 }

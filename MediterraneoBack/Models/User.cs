@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web;
@@ -44,13 +45,15 @@ namespace MediterraneoBack.Models
         [Required(ErrorMessage = "The field {0} is required")]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
         [Display(Name = "Regiones")]
-        public int? DepartmentId { get; set; }
+        public int DepartmentId { get; set; }
 
+        
         [Required(ErrorMessage = "The field {0} is required")]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
         [Display(Name = "City")]
-        public int? CityId { get; set; }
+        public int CityId { get; set; }
 
+        
         [Required(ErrorMessage = "The field {0} is required")]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
         [Display(Name = "Company")]
@@ -63,10 +66,13 @@ namespace MediterraneoBack.Models
         [NotMapped]
         public HttpPostedFileBase PhotoFile { get; set; }
 
+        [JsonIgnore]
         public virtual Department Department { get; set; }
 
+        [JsonIgnore]
         public virtual City City { get; set; }
 
+        [JsonIgnore]
         public virtual Company Company { get; set; }
 
         //public virtual Category Category { get; set; }

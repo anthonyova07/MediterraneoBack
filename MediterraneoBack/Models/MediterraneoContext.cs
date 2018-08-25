@@ -37,7 +37,15 @@ namespace MediterraneoBack.Models
 
         public DbSet<Inventory> Inventories { get; set; }
 
-        public System.Data.Entity.DbSet<MediterraneoBack.Models.Salesperson> Salespersons { get; set; }
+        public DbSet<Salesperson> Salespersons { get; set; }
+
+        public DbSet<State> States { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+
+        public DbSet<OrderDetailTmp> OrderDetailTmps { get; set; }
 
         //public DbSet<Customer> Customers { get; set; }
 

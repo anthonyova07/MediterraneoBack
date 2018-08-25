@@ -64,7 +64,7 @@ namespace MediterraneoBack.Models
 
         [DisplayFormat(DataFormatString = "{0:D}", ApplyFormatInEditMode = false)]
         
-        public int Stock { get { return Inventories.Sum(i => i.Stock); } }
+        public int? Stock { get { return Inventories.Sum(i => i.Stock); } }
 
         public virtual Company Company { get; set; }
 
@@ -73,6 +73,11 @@ namespace MediterraneoBack.Models
         public virtual Tax Tax { get; set; }
 
         public virtual ICollection<Inventory> Inventories { get; set; }
+
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+
+        public virtual ICollection<OrderDetailTmp> OrderDetailTmps { get; set; }
+
 
 
     }
