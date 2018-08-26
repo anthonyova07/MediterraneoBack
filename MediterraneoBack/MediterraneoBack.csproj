@@ -328,6 +328,46 @@
     <Compile Include="Migrations\201808251715161_Initial23.Designer.cs">
       <DependentUpon>201808251715161_Initial23.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808252117283_Initial24.cs" />
+    <Compile Include="Migrations\201808252117283_Initial24.Designer.cs">
+      <DependentUpon>201808252117283_Initial24.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808252122167_Initial25.cs" />
+    <Compile Include="Migrations\201808252122167_Initial25.Designer.cs">
+      <DependentUpon>201808252122167_Initial25.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808252128239_Initial26.cs" />
+    <Compile Include="Migrations\201808252128239_Initial26.Designer.cs">
+      <DependentUpon>201808252128239_Initial26.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808252139239_Initial27.cs" />
+    <Compile Include="Migrations\201808252139239_Initial27.Designer.cs">
+      <DependentUpon>201808252139239_Initial27.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808252143178_Initial28.cs" />
+    <Compile Include="Migrations\201808252143178_Initial28.Designer.cs">
+      <DependentUpon>201808252143178_Initial28.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808252157072_Initial29.cs" />
+    <Compile Include="Migrations\201808252157072_Initial29.Designer.cs">
+      <DependentUpon>201808252157072_Initial29.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808252211255_Initial30.cs" />
+    <Compile Include="Migrations\201808252211255_Initial30.Designer.cs">
+      <DependentUpon>201808252211255_Initial30.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808252218187_Initial31.cs" />
+    <Compile Include="Migrations\201808252218187_Initial31.Designer.cs">
+      <DependentUpon>201808252218187_Initial31.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808252234103_Initial32.cs" />
+    <Compile Include="Migrations\201808252234103_Initial32.Designer.cs">
+      <DependentUpon>201808252234103_Initial32.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808261457002_Initial33.cs" />
+    <Compile Include="Migrations\201808261457002_Initial33.Designer.cs">
+      <DependentUpon>201808261457002_Initial33.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddProductView.cs" />
@@ -378,6 +418,7 @@
     </Content>
     <None Include="Properties\PublishProfiles\MediterraneoInternacional - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\fileupload.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -583,6 +624,36 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808251715161_Initial23.resx">
       <DependentUpon>201808251715161_Initial23.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808252117283_Initial24.resx">
+      <DependentUpon>201808252117283_Initial24.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808252122167_Initial25.resx">
+      <DependentUpon>201808252122167_Initial25.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808252128239_Initial26.resx">
+      <DependentUpon>201808252128239_Initial26.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808252139239_Initial27.resx">
+      <DependentUpon>201808252139239_Initial27.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808252143178_Initial28.resx">
+      <DependentUpon>201808252143178_Initial28.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808252157072_Initial29.resx">
+      <DependentUpon>201808252157072_Initial29.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808252211255_Initial30.resx">
+      <DependentUpon>201808252211255_Initial30.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808252218187_Initial31.resx">
+      <DependentUpon>201808252218187_Initial31.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808252234103_Initial32.resx">
+      <DependentUpon>201808252234103_Initial32.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808261457002_Initial33.resx">
+      <DependentUpon>201808261457002_Initial33.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

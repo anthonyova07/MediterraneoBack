@@ -64,7 +64,7 @@ namespace MediterraneoBack.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CategoryId,Description,CompanyId")] Category category)
+        public ActionResult Create(Category category)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,7 @@ namespace MediterraneoBack.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CategoryId,Description,CompanyId")] Category category)
+        public ActionResult Edit(Category category)
         {
             if (ModelState.IsValid)
             {

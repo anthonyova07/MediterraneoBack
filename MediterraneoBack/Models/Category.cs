@@ -23,10 +23,10 @@ namespace MediterraneoBack.Models
         [Display(Name = "Company")]
         public int CompanyId { get; set; }
 
-        [JsonIgnore]
+        
         public virtual Company Company { get; set; }
 
-        [JsonIgnore]
+        
         public virtual ICollection<Product> Products { get; set; }
 
     }

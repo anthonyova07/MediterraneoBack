@@ -14,8 +14,8 @@ namespace MediterraneoBack.Models
 
         [Required(ErrorMessage = "The field {0} is required")]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0} between {1} and {2}")]
-        [Index("Product_CompanyId_Description_Index", 2, IsUnique = true)]
-        [Index("Product_CompanyId_BarCode_Index", 2, IsUnique = true)]
+        [Index("Product_CompanyId_Description_Index", 1, IsUnique = true)]
+        [Index("Product_CompanyId_BarCode_Index", 1, IsUnique = true)]
         [Display(Name = "Company")]
         public int CompanyId { get; set; }
 
@@ -32,7 +32,7 @@ namespace MediterraneoBack.Models
         public string BarCode { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
-        [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]        
+        [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
@@ -44,6 +44,7 @@ namespace MediterraneoBack.Models
         [Required(ErrorMessage = "The field {0} is required")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
+        [Display(Name = "Wholesale Price")]
         public decimal Price { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
@@ -52,7 +53,7 @@ namespace MediterraneoBack.Models
         [Display(Name = "Detail Price")]
         public decimal Detail_price { get; set; }
 
-        [DataType(DataType.ImageUrl)]
+        [DataType(DataType.ImageUrl)]   
         public string Image { get; set; }
 
         [NotMapped]

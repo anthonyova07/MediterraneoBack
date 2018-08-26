@@ -48,7 +48,7 @@ namespace MediterraneoBack.Controllers
         public ActionResult Create()
         {
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-            ViewBag.CategoryId = new SelectList(CombosHelper.GetCategories(user.CompanyId), "CompanyId", "Description");
+            ViewBag.CategoryId = new SelectList(CombosHelper.GetCategories(user.CompanyId), "CategoryId", "Description");
             ViewBag.TaxId = new SelectList(CombosHelper.GetTaxes(user.CompanyId), "TaxId", "Description");
             var product = new Product { CompanyId = user.CompanyId, };
             return View(product);
@@ -107,7 +107,7 @@ namespace MediterraneoBack.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductId,CompanyId,Description,BarCode,CategoryId,TaxId,Price,Detail_price,Image,Remarks")] Product product)
+        public ActionResult Edit( Product product)
         {
             if (ModelState.IsValid)
             {

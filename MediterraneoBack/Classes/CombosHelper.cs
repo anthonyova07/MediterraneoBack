@@ -17,7 +17,7 @@ namespace MediterraneoBack.Classes
             departments.Add(new Department
             {
                 DepartmentId = 0,
-                Name = "[Select a Region]",
+                Name = "[Select a Region...]",
             });
 
             return departments.OrderBy(d => d.Name).ToList();
@@ -42,7 +42,7 @@ namespace MediterraneoBack.Classes
             companies.Add(new Company
             {
                 CompanyId = 0,
-                Name = "[Select a company]",
+                Name = "[Select a company...]",
             });
             return companies.OrderBy(d => d.Name).ToList();
         }
@@ -58,7 +58,7 @@ namespace MediterraneoBack.Classes
             categories.Add(new Category
             {
                 CategoryId = 0,
-                Description = "[Select a category]",
+                Description = "[Select a category...]",
             });
             return categories.OrderBy(d => d.Description).ToList();
         }
@@ -69,7 +69,7 @@ namespace MediterraneoBack.Classes
             taxes.Add(new Tax
             {
                 TaxId = 0,
-                Description = "[Select a tax]",
+                Description = "[Select a tax...]",
             });
             return taxes.OrderBy(d => d.Description).ToList();
         }
@@ -80,7 +80,7 @@ namespace MediterraneoBack.Classes
             cities.Add(new City
             {
                 CityId = 0,
-                Name = "[Select a city]",
+                Name = "[Select a city...]",
             });
             return cities.OrderBy(d => d.Name).ToList();
         }
@@ -91,7 +91,7 @@ namespace MediterraneoBack.Classes
             salespersons.Add(new Salesperson
             {
                 SalespersonId = 0,
-                FirstName = "[Select a Client]",
+                FirstName = "[Select a Customer...]",
             });
             return salespersons.OrderBy(d => d.FirstName).ThenBy(c => c.LastName).ToList();
         }

@@ -47,7 +47,7 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Save Order" class="btn btn-primary" />
-                        @Html.ActionLink("ADD Product", "AddProduct", new { }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Add Product", "AddProduct", "Orders", new { }, new { @class = "dialog-window btn btn-info" })
                         @Html.ActionLink("Back to Orders", "Index", new { }, new { @class = "btn btn-success" })
                     </div>
                 </div>
@@ -124,21 +124,59 @@ else
         <tr>
 
             <td colspan="4" align="right">
-               <strong>Total</strong>
-            </td>    
+                <strong>Total</strong>
+            </td>
             <td align="center">
                 <strong> @Html.DisplayFor(modelItem => Model.TotalQuantity)</strong>
             </td>
             <td align="center">
-                <strong>@Html.DisplayFor(modelItem => Model.TotalValue)</strong> 
+                <strong>@Html.DisplayFor(modelItem => Model.TotalValue)</strong>
             </td>
         </tr>
 
     </table>
 
 }
+
+<div class="modal fade" id="AddProduct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title"></h2>
+            </div>
+            <div class="modal-body"><div class="te">Please wait...</div></div>
+        </div>
+    </div>
+</div>
+
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("body").on("click", "a.dialog-window", null, function (e) {
+                e.preventDefault();
+                var $link = $(this);
+                var title = $link.text();
+                $('#AddProduct .modal-title').html(title);
+                var url = $(this).attr('href');
+                if (url.indexOf('#') == 0) {
+                    $('#AddProduct').modal('show');
+                }
+                else {
+                    $.get(url, function (data) {
+                        $('#AddProduct .te').html(data);
+                        $('#AddProduct').modal();
+                    }).success(function () { $('input:text:visible:first').focus(); });
+
+                }
+            });
+        });
+    </script>
 }
 
 

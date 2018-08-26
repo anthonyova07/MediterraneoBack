@@ -49,7 +49,7 @@ namespace MediterraneoBack.Controllers.MVC
 
             }
              ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId), "ProductId", "Description");
-            return View(view);
+            return PartialView(view);
 
         }
 
@@ -57,7 +57,7 @@ namespace MediterraneoBack.Controllers.MVC
         {
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
             ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId), "ProductId", "Description");
-            return View();
+            return PartialView();
         }
 
 
