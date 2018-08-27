@@ -57,8 +57,14 @@ namespace MediterraneoBack.Controllers
             if (ModelState.IsValid)
             {
                 db.Warehouses.Add(warehouse);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var response = DBHelper.SaveChanges(db);
+                if (response.IsSucces)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ModelState.AddModelError(string.Empty, response.Message);
+                
             }
 
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", warehouse.CityId);
@@ -93,9 +99,16 @@ namespace MediterraneoBack.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(warehouse).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                db.Entry(warehouse).State = EntityState.Modified;  
+                db.Warehouses.Add(warehouse);
+                var response = DBHelper.SaveChanges(db);
+                if (response.IsSucces)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ModelState.AddModelError(string.Empty, response.Message);
+
             }
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", warehouse.CityId);
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", warehouse.DepartmentId);

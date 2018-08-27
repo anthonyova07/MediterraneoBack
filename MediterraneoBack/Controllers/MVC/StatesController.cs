@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MediterraneoBack.Classes;
 using MediterraneoBack.Models;
 
 namespace MediterraneoBack.Controllers
@@ -47,13 +48,18 @@ namespace MediterraneoBack.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StateId,Description")] State state)
+        public ActionResult Create(State state)
         {
             if (ModelState.IsValid)
             {
                 db.States.Add(state);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var response = DBHelper.SaveChanges(db);
+                if (response.IsSucces)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ModelState.AddModelError(string.Empty, response.Message);
             }
 
             return View(state);
@@ -79,13 +85,18 @@ namespace MediterraneoBack.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StateId,Description")] State state)
+        public ActionResult Edit( State state)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(state).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var response = DBHelper.SaveChanges(db);
+                if (response.IsSucces)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ModelState.AddModelError(string.Empty, response.Message);
             }
             return View(state);
         }

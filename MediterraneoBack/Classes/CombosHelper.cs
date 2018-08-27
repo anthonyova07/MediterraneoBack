@@ -1,9 +1,7 @@
 ﻿using MediterraneoBack.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace MediterraneoBack.Classes
 {
@@ -24,7 +22,15 @@ namespace MediterraneoBack.Classes
 
         }
 
-        internal static List<Product> GetProducts(int companyId)
+
+        public static List<Product> GetProducts(int companyId, bool sw)
+        {
+            var products = db.Products.Where(p => p.CompanyId == companyId).ToList();
+            return products.OrderBy(p => p.Description).ToList();
+        }
+
+
+        public static List<Product> GetProducts(int companyId)
         {
             var products = db.Products.Where(p => p.CompanyId == companyId).ToList();
             products.Add(new Product
@@ -87,7 +93,19 @@ namespace MediterraneoBack.Classes
 
         public static List<Salesperson> GetCustomers(int companyId)
         {
-            var salespersons = db.Salespersons.Where(c => c.CompanyId == companyId).ToList();
+
+            var qry = (from cu in db.Salespersons
+                       join cc in db.CompanyCustomers on cu.SalespersonId equals cc.SalespersonId
+                       join co in db.Companies on cc.CompanyId equals co.CompanyId
+                       where co.CompanyId == companyId
+                       select new { cu }).ToList();
+
+            var salespersons = new List<Salesperson>();
+            foreach (var item in qry)
+            {
+                salespersons.Add(item.cu);
+            }
+
             salespersons.Add(new Salesperson
             {
                 SalespersonId = 0,

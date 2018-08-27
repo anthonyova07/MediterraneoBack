@@ -67,8 +67,13 @@ namespace MediterraneoBack.Controllers
                 }
                 company.Logo = pic;
                 db.Companies.Add(company);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var response = DBHelper.SaveChanges(db);
+                if (response.IsSucces)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ModelState.AddModelError(string.Empty, response.Message);
             }
             ViewBag.DepartmentId = new SelectList(
                 db.Departments.OrderBy(d => d.Name),
@@ -121,25 +126,14 @@ namespace MediterraneoBack.Controllers
                 }
                 company.Logo = pic;
                 db.Entry(company).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var response = DBHelper.SaveChanges(db);
+                if (response.IsSucces)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ModelState.AddModelError(string.Empty, response.Message);
             }
-
-            //if (ModelState.IsValid)
-            //{
-            //    var pic = string.Empty;
-            //    var folder = "~/Content/Logos";
-
-            //    if (company.LogoFile != null)
-            //    {
-            //        pic = FilesHelper.UploadPhoto(company.LogoFile, folder);
-            //        pic = string.Format("{0}/{1}", folder, pic);
-            //    }
-            //    company.Logo = pic;
-            //    db.Companies.Add(company);
-            //    db.SaveChanges();
-            //    return RedirectToAction("Index");
-            //}
             ViewBag.DepartmentId = new SelectList(db.Departments, "DepartmentId", "Name", company.DepartmentId);
             ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", company.CityId);
             return View(company);

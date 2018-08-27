@@ -47,18 +47,8 @@ namespace MediterraneoBack.Models
 
         public DbSet<OrderDetailTmp> OrderDetailTmps { get; set; }
 
-        //public DbSet<Customer> Customers { get; set; }
+        public DbSet<CompanyCustomer> CompanyCustomers { get; set; }
 
-        //public DbSet<Inventory> Inventories { get; set; }
-
-        //public DbSet<Order> Orders { get; set; }
-
-        //public DbSet<Product> Products { get; set; }
-
-        //public DbSet<Tax> Taxes { get; set; }
-
-        //public DbSet<Sale> Sales { get; set; }
-
-        //public DbSet<User> Users { get; set; }
+        
     }
 }

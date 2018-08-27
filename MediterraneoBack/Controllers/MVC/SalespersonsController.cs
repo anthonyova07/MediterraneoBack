@@ -20,8 +20,21 @@ namespace MediterraneoBack.Controllers
         public ActionResult Index()
         {
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-            var salespersons = db.Salespersons.Where(s => s.CompanyId == user.CompanyId).Include(s => s.City).Include(s => s.Department);
-            return View(salespersons.ToList());
+
+            var qry = (from cu in db.Salespersons
+                       join cc in db.CompanyCustomers on cu.SalespersonId equals cc.SalespersonId
+                       join co in db.Companies on cc.CompanyId equals co.CompanyId
+                       where co.CompanyId == user.CompanyId
+                       select new { cu }).ToList();
+
+            var salespersons = new List<Salesperson>();
+            foreach (var item in qry)
+            {
+                salespersons.Add(item.cu);
+            }
+
+            
+           return View(salespersons.ToList());
         }
 
         // GET: Salespersons/Details/5
@@ -45,9 +58,7 @@ namespace MediterraneoBack.Controllers
         {
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name");
-            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-            var salesperson = new Salesperson { CompanyId = user.CompanyId, };
-            return View(salesperson);
+            return View();
         }
 
         // POST: Salespersons/Create
@@ -59,10 +70,43 @@ namespace MediterraneoBack.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Salespersons.Add(salesperson);
-                db.SaveChanges();
-                UsersHelper.CreateUserASP(salesperson.UserName, "Salesperson");
-                return RedirectToAction("Index");
+                using (var transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        db.Salespersons.Add(salesperson);
+                        var response = DBHelper.SaveChanges(db);
+                        if (!response.IsSucces)
+                        {
+                            ModelState.AddModelError(string.Empty, response.Message);
+                            transaction.Rollback();
+                            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", salesperson.CityId);
+                            ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", salesperson.DepartmentId);
+                            return View(salesperson);
+                        }
+
+                        UsersHelper.CreateUserASP(salesperson.UserName, "Salesperson");
+
+                        var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+                        var companyCustomer = new CompanyCustomer
+                        {
+                            CompanyId = user.CompanyId,
+                            SalespersonId = salesperson.SalespersonId,
+                        };
+
+                        db.CompanyCustomers.Add(companyCustomer);
+                        db.SaveChanges();
+
+                        transaction.Commit();
+                        return RedirectToAction("Index");                        
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        ModelState.AddModelError(string.Empty, ex.Message);
+
+                    }
+                }
             }
 
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", salesperson.CityId);
@@ -98,9 +142,14 @@ namespace MediterraneoBack.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(salesperson).State = EntityState.Modified;
-                db.SaveChanges();
-                // TODO: Validate when the salesperson email change
-                return RedirectToAction("Index");
+                var response = DBHelper.SaveChanges(db);
+                if (response.IsSucces)
+                {
+                    UsersHelper.CreateUserASP(salesperson.UserName, "Salesperson");
+                    return RedirectToAction("Index");
+                }
+
+                ModelState.AddModelError(string.Empty, response.Message);
             }
             ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", salesperson.CityId);
             ViewBag.DepartmentId = new SelectList(CombosHelper.GetDepartments(), "DepartmentId", "Name", salesperson.DepartmentId);
@@ -128,12 +177,28 @@ namespace MediterraneoBack.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Salesperson salesperson = db.Salespersons.Find(id);
+            var salesperson = db.Salespersons.Find(id);
+            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+            var companyCustomer = db.CompanyCustomers.Where(cc => cc.CompanyId == user.CompanyId && cc.SalespersonId == salesperson.SalespersonId).FirstOrDefault();
 
-            db.Salespersons.Remove(salesperson);
-            db.SaveChanges();
-            UsersHelper.DeleteUser(salesperson.UserName);
-            return RedirectToAction("Index");
+
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                db.CompanyCustomers.Remove(companyCustomer);
+                db.Salespersons.Remove(salesperson);
+                var response = DBHelper.SaveChanges(db);
+
+                if (response.IsSucces)
+                {
+                    transaction.Commit();
+                    return RedirectToAction("Index");
+                }
+
+                transaction.Rollback();
+                ModelState.AddModelError(string.Empty, response.Message);
+                return View(salesperson); 
+            }
+            
         }
 
         protected override void Dispose(bool disposing)

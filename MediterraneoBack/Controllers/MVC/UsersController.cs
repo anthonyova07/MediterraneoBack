@@ -72,9 +72,14 @@ namespace MediterraneoBack.Controllers
                 }
                 user.Photo = pic;
                 db.Users.Add(user);
-                db.SaveChanges();
-                UsersHelper.CreateUserASP(user.UserName, "User");
-                return RedirectToAction("Index");
+                var response = DBHelper.SaveChanges(db);
+                if (response.IsSucces)
+                {
+                    UsersHelper.CreateUserASP(user.UserName, "User");
+                    return RedirectToAction("Index");
+                }
+
+                ModelState.AddModelError(string.Empty, response.Message);
             }
             //Comentario de prueba
             ViewBag.CityId = new SelectList(
@@ -143,8 +148,14 @@ namespace MediterraneoBack.Controllers
 
                 //user.Photo = pic;
                 db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var responses = DBHelper.SaveChanges(db);
+                if (responses.IsSucces)
+                {
+                    UsersHelper.CreateUserASP(user.UserName, "User");
+                    return RedirectToAction("Index");
+                }
+
+                ModelState.AddModelError(string.Empty, responses.Message);
             }
 
             ViewBag.CityId = new SelectList(db.Cities, "CityId", "Name", user.CityId);
@@ -196,7 +207,7 @@ namespace MediterraneoBack.Controllers
             var user = db.Users.Find(id);
             db.Users.Remove(user);
             db.SaveChanges();
-            UsersHelper.DeleteUser(user.UserName);
+            UsersHelper.DeleteUser(user.UserName, "User");
             return RedirectToAction("Index");
         }
 

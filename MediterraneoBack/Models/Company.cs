@@ -60,6 +60,8 @@ namespace MediterraneoBack.Models
         [JsonIgnore]
         public virtual ICollection<Product> Products { get; set; }
 
+        public virtual ICollection<CompanyCustomer> CompanyCustomers { get; set; }
+
         [JsonIgnore]
         public virtual ICollection<Warehouse> Warehouses { get; set; }
 
@@ -68,8 +70,6 @@ namespace MediterraneoBack.Models
         public IEnumerable<Department> Departments { get; set; }
 
         public IEnumerable<City> Cities { get; set; }
-
-        public virtual ICollection<Salesperson> Salespersons { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
 
