@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MediterraneoBack.Classes;
 using MediterraneoBack.Models;
+using PagedList;
 
 namespace MediterraneoBack.Controllers
 {
@@ -17,16 +18,25 @@ namespace MediterraneoBack.Controllers
         private MediterraneoContext db = new MediterraneoContext();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(int? page = null)
         {
+            page = (page ?? 1);
             var user = db.Users
                 .Where(u => u.UserName == User.Identity.Name)
                 .FirstOrDefault();
+
+
             var products = db.Products
                 .Include(p => p.Category)
-                .Include(p => p.Tax)
+                .Include(p => p.Tax)                
                 .Where(p => p.CompanyId == user.CompanyId);
-            return View(products.ToList());
+            return View(products
+                .ToList()
+                .ToPagedList((int) page, 10));
+
+            //var products = db.Products
+            //    .Where(p => p.CompanyId == user.CompanyId);
+            //return View(products.ToList());
         }
 
         // GET: Products/Details/5

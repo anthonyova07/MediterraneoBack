@@ -13,11 +13,16 @@ namespace MediterraneoBack.Models
         public int ProductId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
-        [Range(1, double.MaxValue, ErrorMessage = "You must select a {0} between {1} and {2}")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a {0} between {1} and {2}")]
         [Index("Product_CompanyId_Description_Index", 1, IsUnique = true)]
         [Index("Product_CompanyId_BarCode_Index", 1, IsUnique = true)]
         [Display(Name = "Company")]
         public int CompanyId { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is required")]
+        [MaxLength(50, ErrorMessage = "The field {0} must be maximum {1} characters length")]
+        [Index("Product_CompanyId_Reference_Index", 2, IsUnique = true)]        
+        public string Reference { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
         [MaxLength(50, ErrorMessage = "The field {0} must be maximum {1} characters length")]
@@ -32,14 +37,14 @@ namespace MediterraneoBack.Models
         public string BarCode { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
-        [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a {0}")]
         [Display(Name = "Category")]
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
-        [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a {0}")]
         [Display(Name = "Tax")]
-        public int TaxId { get; set; }
+        public int? TaxId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]

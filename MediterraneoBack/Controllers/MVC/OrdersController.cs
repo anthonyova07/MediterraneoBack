@@ -30,6 +30,7 @@ namespace MediterraneoBack.Controllers.MVC
                     orderDetailTmp = new OrderDetailTmp
                     {
                         Description = product.Description,
+                        Reference = product.Reference,
                         Price = product.Price,
                         ProductId = product.ProductId,
                         Quantity = view.Quantity,

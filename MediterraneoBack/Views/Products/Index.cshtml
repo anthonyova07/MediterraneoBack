@@ -1,78 +1,98 @@
-﻿@model IEnumerable<MediterraneoBack.Models.Product>
+﻿@*@model IEnumerable<MediterraneoBack.Models.Product>*@
+@model PagedList.IPagedList<MediterraneoBack.Models.Product>
+@using PagedList.Mvc;
 
-@{
-    ViewBag.Title = "Products";
-}
 
-<h2>Productos</h2>
+    @{
+        ViewBag.Title = "Products";
+    }
 
-<p>
-    @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-primary" })
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Category.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tax.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BarCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Detail_price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Image)
-        </th>
-        <th align="center">
-            @Html.DisplayNameFor(model => model.Stock)
-        </th>
-        <th></th>
-    </tr>
+    <h2>Productos</h2>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tax.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BarCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Detail_price)
-        </td>
-        <td>
-            @if (!string.IsNullOrEmpty(item.Image))
-            {
-                <img src="@Url.Content(item.Image)" alt="Image" style="width:100px;height:150px;max-width: 100%; height: auto;" />
-            }
-        </td>
-        <td align="center">
-            @Html.DisplayFor(modelItem => item.Stock)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProductId }, new { @class = "btn btn-warning" }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProductId }, new { @class = "btn btn-info" }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProductId }, new { @class = "btn btn-danger" })
-        </td>
-    </tr>
-}
+    <p>
+        @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-primary" })
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().BarCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Reference)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Category.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Tax.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Detail_price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Image)
+            </th>
+            <th align="center">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Stock)
+            </th>
+            <th></th>
+        </tr>
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.BarCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reference)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tax.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Detail_price)
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Image))
+                    {
+                        <img src="@Url.Content(item.Image)" alt="Image" style="width:100px;height:150px;max-width: 100%; height: auto;" />
+                    }
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    Página: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber), de: @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new
+    {
+        page,
+        sortOrder =
+        ViewBag.CurrentSort,
+        currentFilter = ViewBag.CurrentFilter
+    }))

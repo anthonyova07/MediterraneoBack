@@ -18,6 +18,10 @@ namespace MediterraneoBack.Models
         public int ProductId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
+        [MaxLength(50, ErrorMessage = "The field {0} must be maximum {1} characters length")]        
+        public string Reference { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is required")]
         [MaxLength(100, ErrorMessage = "The filed {0} must be maximun {1} characters length")]
         [Display(Name = "Product")]
         public string Description { get; set; }
