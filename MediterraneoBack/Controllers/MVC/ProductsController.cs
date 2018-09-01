@@ -12,12 +12,13 @@ using PagedList;
 
 namespace MediterraneoBack.Controllers
 {
-    [Authorize(Roles ="User")]
+    [Authorize(Roles ="User, Admin")]
     public class ProductsController : Controller
     {
         private MediterraneoContext db = new MediterraneoContext();
 
         // GET: Products
+        //int? page = null
         public ActionResult Index(int? page = null)
         {
             page = (page ?? 1);
@@ -30,13 +31,14 @@ namespace MediterraneoBack.Controllers
                 .Include(p => p.Category)
                 .Include(p => p.Tax)                
                 .Where(p => p.CompanyId == user.CompanyId);
+
             return View(products
                 .ToList()
-                .ToPagedList((int) page, 10));
+                .ToPagedList((int)page, 10));
 
             //var products = db.Products
             //    .Where(p => p.CompanyId == user.CompanyId);
-            //return View(products.ToList());
+            // return View(products.ToList());
         }
 
         // GET: Products/Details/5

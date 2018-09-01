@@ -220,6 +220,7 @@
     <Compile Include="Classes\MovementsHelper.cs" />
     <Compile Include="Classes\UserResponse.cs" />
     <Compile Include="Classes\UsersHelper.cs" />
+    <Compile Include="Controllers\API\ProductsController.cs" />
     <Compile Include="Controllers\API\UsersController.cs" />
     <Compile Include="Controllers\MVC\AccountController.cs" />
     <Compile Include="Controllers\MVC\CategoriesController.cs" />
@@ -413,12 +414,17 @@
     <Content Include="Content\Logos\2016-02-25 14.28.11.jpg" />
     <Content Include="Content\Logos\2016-04-15 08.53.17.jpg" />
     <Content Include="Content\Logos\2016-06-05 09.21.41.jpg" />
+    <Content Include="Content\Logos\Capture.PNG" />
     <Content Include="Content\Logos\Logo_Med.PNG" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Products\Logo_Med.PNG" />
     <Content Include="Content\Users\2016-02-07 13.31.03.jpg" />
+    <Content Include="Content\Users\2016-03-18 10.32.49.jpg" />
+    <Content Include="Content\Users\20160415_085345.jpg" />
     <Content Include="Content\Users\20160517_143007.jpg" />
     <Content Include="Content\Users\Logo_Med.PNG" />
     <Content Include="Content\Users\perfil.png" />
+    <Content Include="Content\Users\Profile.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -544,7 +550,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Products\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
