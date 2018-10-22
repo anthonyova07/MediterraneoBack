@@ -69,10 +69,10 @@ namespace MediterraneoBack.Models
         [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
 
+        //[JsonIgnore]
         [DisplayFormat(DataFormatString = "{0:D}", ApplyFormatInEditMode = false)]
-
-        [JsonIgnore]
-        public int? Stock { get { return Inventories.Sum(i => i.Stock); } }
+        public int? Stock { get; set; }
+        //public int? Stock { get { return Inventories.Sum(i => i.Stock); } }
 
         [JsonIgnore]
         public virtual Company Company { get; set; }
@@ -82,7 +82,7 @@ namespace MediterraneoBack.Models
 
         [JsonIgnore]
         public virtual Tax Tax { get; set; }
-
+        
         [JsonIgnore]
         public virtual ICollection<Inventory> Inventories { get; set; }
 

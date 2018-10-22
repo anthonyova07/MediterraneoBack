@@ -1,11 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
+using System.Net.Mail;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using iTextSharp.text;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.text.pdf;
 using MediterraneoBack.Classes;
 using MediterraneoBack.Models;
 
@@ -30,6 +41,7 @@ namespace MediterraneoBack.Controllers.MVC
                     orderDetailTmp = new OrderDetailTmp
                     {
                         Description = product.Description,
+                        BarCode = product.BarCode,
                         Reference = product.Reference,
                         Price = product.Price,
                         ProductId = product.ProductId,
@@ -49,7 +61,7 @@ namespace MediterraneoBack.Controllers.MVC
                 return RedirectToAction("Create");
 
             }
-             ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId), "ProductId", "Description");
+             ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId), "ProductId", "BarCode");
             return PartialView(view);
 
         }
@@ -57,7 +69,7 @@ namespace MediterraneoBack.Controllers.MVC
         public ActionResult AddProduct()
         {
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-            ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId, true), "ProductId", "Description");
+            ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId, true), "ProductId", "BarCode");
             return PartialView();
         }
 
@@ -81,16 +93,12 @@ namespace MediterraneoBack.Controllers.MVC
         }
 
 
-
-
-
-
         // GET: Orders
         public ActionResult Index()
         {
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
             var orders = db.Orders.Where(o => o.CompanyId == user.CompanyId).Include(o => o.State);
-            return View(orders.ToList());
+            return View(orders.OrderByDescending(o => o.OrderId).ToList());
         }
 
         // GET: Orders/Details/5
@@ -113,10 +121,11 @@ namespace MediterraneoBack.Controllers.MVC
         {
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
             ViewBag.SalespersonId = new SelectList(CombosHelper.GetCustomers(user.CompanyId), "SalespersonId", "FullName");
+            ViewBag.DiscountId = new SelectList(CombosHelper.GetDiscounts(user.CompanyId), "DiscountId", "Description");
             var view = new NewOrderView
             {
                 Date = DateTime.Now,
-                Details = db.OrderDetailTmps.Where(odt => odt.UserName == User.Identity.Name).ToList(),
+                Details = db.OrderDetailTmps.Where(odt => odt.UserName == User.Identity.Name).OrderByDescending(l => l.OrderDetailTmpId).ToList(),
             };
             return View(view);
         }
@@ -130,9 +139,33 @@ namespace MediterraneoBack.Controllers.MVC
         {
             if (ModelState.IsValid)
             {
+               
                 var response = MovementsHelper.NewOrder(view, User.Identity.Name);
                 if (response.IsSucces)
                 {
+                    DataTable dt = new DataTable();
+                    dt.Columns.AddRange(new DataColumn[5]{
+                        new DataColumn("REFERENCIA"),
+                        new DataColumn("CANTIDAD"),
+                        new DataColumn("DESCRIPCION"),                        
+                        new DataColumn("PRECIO"),
+                        new DataColumn("VALOR_BRUTO", typeof(decimal))
+                    });
+
+                    var ordd = db.OrderDetails.OrderByDescending(o => o.OrderId);
+
+                    var qry = (
+                        
+                               from o in ordd
+                               let topOrders = ordd.Take(1).Select(p => p.OrderId).Distinct()                               
+                               where topOrders.Contains(o.OrderId)
+                               select o).ToList();
+
+                    foreach (var item in qry)
+                    {
+                        dt.Rows.Add(item.Reference, item.Quantity ,item.Description, item.Price.ToString("#,##0").PadLeft(6), (item.Price * item.Quantity).ToString("#,##0").PadLeft(6));
+                    }
+                    SendPDFEmail(dt,view);  
                     return RedirectToAction("Index");
                 }
 
@@ -140,9 +173,228 @@ namespace MediterraneoBack.Controllers.MVC
             }
 
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+
             ViewBag.SalespersonId = new SelectList(CombosHelper.GetCustomers(user.CompanyId), "SalespersonId", "FullName");
+            ViewBag.DiscountId = new SelectList(CombosHelper.GetDiscounts(user.CompanyId), "DiscountId", "Description");
+
             view.Details = db.OrderDetailTmps.Where(odt => odt.UserName == User.Identity.Name).ToList();
             return View(view);
+        }
+
+        private void SendPDFEmail(DataTable dt, NewOrderView view)
+        {
+
+            var cust_qry = (
+
+                               from ord in db.Orders
+                               join cust in db.Salespersons on ord.SalespersonId equals cust.SalespersonId
+                               orderby ord.OrderId descending
+                               select new { cust.UserName, cust.Address, cust.Phone }).FirstOrDefault();
+
+            var OrderNo_qry = (
+
+                               from ord in db.Orders
+                               orderby ord.OrderId descending
+                               select new { ord.OrderId }).FirstOrDefault();
+
+            var Order_Disc = (
+
+                                from ord in db.Orders
+                                join disc in db.Discounts on ord.DiscountId equals disc.DiscountId
+                                orderby ord.OrderId descending
+                                select new { disc.Description, disc.DiscountRate}).FirstOrDefault();
+
+            using (StringWriter sw = new StringWriter())
+            {
+                using (HtmlTextWriter hw = new HtmlTextWriter(sw))
+                {
+                    //"130813711"
+                    var customerName = cust_qry.UserName;
+                    var customerAdress = cust_qry.Address;
+                    var customerPhone = cust_qry.Phone;
+                    string rnc = "130813711";
+                    string discount = Order_Disc.Description;
+                    var disc_rate = Order_Disc.DiscountRate;
+                    var orderNo = OrderNo_qry.OrderId;
+
+                    var sumOfValues = dt.AsEnumerable().Sum(row => row.Field<decimal>("VALOR_BRUTO")).ToString("#,##0.00##");
+                    var total_br = dt.AsEnumerable().Sum(row => row.Field<decimal>("VALOR_BRUTO"));
+                    var descTotal = (Convert.ToDouble(total_br) * disc_rate).ToString("#,##0.00##");
+                    var pre_itbis = (Convert.ToDouble(total_br) * disc_rate);
+                    var itbis_total = ((Convert.ToDouble(total_br) - pre_itbis) * 0.18).ToString("#,##0.00##");
+                    var pre_neto = ((Convert.ToDouble(total_br) - pre_itbis) * 0.18);
+                    var neto_total = ((Convert.ToDouble(total_br) - pre_itbis) + pre_neto).ToString("#,##0.00##");
+
+                    string filepath = Server.MapPath("~/Content/Logos/Logo_Med.png");
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.Append("<table width='100%' cellspacing='0' cellpadding='0'>");
+                    sb.Append("<tr>");
+                    sb.Append("<td>");
+                    sb.Append("<img src='"+ filepath+ "'width='130' height='100' align='center'/>");
+                    sb.Append("</td>");
+                    sb.Append("</tr>");
+                    //sb.Append("<tr><td align='center' style='background-color: #18B5F0' colspan = '2'><b> MEDITERRANEO INTERNACIONAL SRL </b></td></tr>");
+                    sb.Append("<tr><td align='center' style='background-color: #18B5F0' colspan = '2'><b>HOJA DE PEDIDO</b></td></tr>");
+                    sb.Append("<tr><td colspan = '2'></td></tr>");
+                    sb.Append("<tr><td><b># ORDEN: </b>");
+                    sb.Append(orderNo);
+                    sb.Append("</td><td align='right'><b>FECHA: </b>");
+                    sb.Append(DateTime.Now);
+                    sb.Append(" </td></tr>");
+
+                    sb.Append("<tr>");
+                    sb.Append("<th align='left'><b>CLIENTE: </b>");
+                    sb.Append(customerName);
+
+                    sb.Append("<tr>");
+                    sb.Append("<th align='left'><b>VENDEDOR: </b>");
+                    sb.Append(User.Identity.Name);
+
+                    sb.Append("<tr>");
+                    sb.Append("<th align='left'><b>RNC: </b>");
+                    sb.Append(rnc);
+                    sb.Append("&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;");
+                    sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;  ");
+                    sb.Append("<b>CONDICION: </b>");                   
+                    sb.Append("CREDITO");
+                    sb.Append("</th></tr>");
+
+                    sb.Append("<tr>");
+                    sb.Append("<th align='left'><b>TELEFONO: </b>");
+                    sb.Append(customerPhone);
+                    sb.Append("&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;");
+                    sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("<b>DESC.%: </b>");
+                    sb.Append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;");
+                    sb.Append(discount);                   
+                    sb.Append("</th></tr>");
+
+
+                    sb.Append("<tr>");
+                    sb.Append("<th align='left'>");
+                    sb.Append("&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;");
+                    sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;");
+                    sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;");
+                    sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("<b>TOTAL BRUTO RD$: </b>");
+                    sb.Append("&nbsp;");
+                    sb.Append(sumOfValues);
+                    sb.Append("</th></tr>");
+
+                    sb.Append("<tr>");
+                    sb.Append("<th align='left'>");
+                    sb.Append("&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;");
+                    sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;");
+                    sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;");
+                    sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("<b>DESCUENTO RD$: </b>");
+                    sb.Append("&nbsp;&nbsp; &nbsp;");
+                    sb.Append(descTotal);
+                    sb.Append("</th></tr>");
+
+                    sb.Append("<tr>");
+                    sb.Append("<th align='left'>");
+                    sb.Append("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;");
+                    sb.Append("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;");
+                    sb.Append("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;");
+                    sb.Append("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;");
+                    sb.Append("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;");
+                    sb.Append("<b>ITBIS RD$:</b>");
+                    sb.Append("&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;");
+                    sb.Append(itbis_total);
+                    sb.Append("</th></tr>");
+
+                    sb.Append("<tr>");
+                    sb.Append("<th align='left'>");
+                    sb.Append("&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;");
+                    sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;");
+                    sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;");
+                    sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
+                    sb.Append("<b>VALOR NETO RD$: </b>");
+                    sb.Append("&nbsp; &nbsp;");
+                    sb.Append(neto_total);
+                    sb.Append("</th></tr>");
+
+                    sb.Append("<tr>");
+                    sb.Append("<th align='left'><b>DIRECCION: </b>");
+                    sb.Append(cust_qry.Address);
+                    
+                    sb.Append("<tr>");
+                    sb.Append("<th align='left'><b>OBSERVACION: </b>");
+                    sb.Append(view.Remarks);
+
+                    sb.Append("</table>");
+                    sb.Append("<br />");
+                    sb.Append("<table width='100%' align='center'  border = '0'>");
+                    sb.Append("<tr>");
+                    foreach (DataColumn column in dt.Columns)
+                    {
+                        sb.Append("<th align='center' width='90%' border = '1' > <font size ='2'> ");
+                        sb.Append("<b>" + column.ColumnName + "</b>");
+                        sb.Append("</th>");
+                    }
+                    sb.Append("</tr>");
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        sb.Append("<tr>");
+                        foreach (DataColumn column in dt.Columns)
+                        {
+                            sb.Append("<td align='center' width='90%' > <font size ='2'>"); 
+                                 sb.Append(row[column]);
+                            sb.Append("</font></td>");
+                        }
+                        sb.Append("</tr>");
+                    }
+                    sb.Append("</table>");
+                    StringReader sr = new StringReader(sb.ToString());
+
+                    //, 14f, 14f, 14f, 0f
+                    Document pdfDoc = new Document(PageSize.A4,2.5f,2.5f,10f,1f);
+                    HTMLWorker htmlparser = new HTMLWorker(pdfDoc);
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        PdfWriter writer = PdfWriter.GetInstance(pdfDoc, memoryStream);
+                        pdfDoc.Open();
+                        htmlparser.Parse(sr);
+                        pdfDoc.Close();
+                        byte[] bytes = memoryStream.ToArray();
+                        memoryStream.Close();
+
+                        ////n.gomez@mediterraneo.com.do
+                        //e.peralta@mediterraneo.com.do
+                        //v.ogando@mediterraneo.com.do
+                        MailMessage mm = new MailMessage("mediterraneoapp@gmail.com", "anthonyovalles@gmail.com");
+                        mm.To.Add(new MailAddress("n.gomez@mediterraneo.com.do"));
+                        mm.Subject = "Nueva Orden de Pedido";
+                        mm.Body = "Adjunto esta la orden realizada por: " + User.Identity.Name + ", Observaciones: " + view.Remarks ;
+                        mm.Attachments.Add(new Attachment(new MemoryStream(bytes), "OrdenDePedido.pdf"));
+                        mm.IsBodyHtml = true;
+                        SmtpClient smtp = new SmtpClient();
+                        smtp.Host = "smtp.gmail.com";
+                        smtp.EnableSsl = true;
+                        smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                        NetworkCredential NetworkCred = new NetworkCredential();
+                        NetworkCred.UserName = "mediterraneoapp@gmail.com";
+                        NetworkCred.Password = "bayovanex0705";
+                        smtp.UseDefaultCredentials = false;
+                        smtp.Credentials = NetworkCred;
+                        smtp.Port = 587;
+                        smtp.Send(mm);
+                    }   
+                }
+            }
         }
 
         // GET: Orders/Edit/5

@@ -24,12 +24,16 @@ namespace MediterraneoBack.Classes
                 try
                 {
                     var user = db.Users.Where(u => u.UserName == userName).FirstOrDefault();
+                    
+
                     var order = new Order
                     {
                         CompanyId = user.CompanyId,
                         SalespersonId = view.SalespersonId,
-                        Date = view.Date,
-                        Remarks = view.Remarks,
+                        DiscountId = view.DiscountId,
+                        
+                        Date = view.Date,                        
+                        Remarks = view.Remarks,                        
                         StateId = DBHelper.GetState("Created", db),
                     };
 
@@ -43,7 +47,7 @@ namespace MediterraneoBack.Classes
                         {
                             Description = detail.Description,
                             Reference = detail.Reference,
-                            OrderId = order.OrderId,
+                            OrderId = order.OrderId,                            
                             Price = detail.Price,
                             ProductId = detail.ProductId,
                             Quantity = detail.Quantity,

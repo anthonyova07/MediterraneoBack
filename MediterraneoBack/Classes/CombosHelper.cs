@@ -38,7 +38,7 @@ namespace MediterraneoBack.Classes
                 ProductId = 0,
                 Description = "[Select a product...]",
             });
-            return products.OrderBy(p => p.Description).ToList();
+            return products.OrderBy(p => p.BarCode).ToList();
 
         }
 
@@ -80,6 +80,17 @@ namespace MediterraneoBack.Classes
             return taxes.OrderBy(d => d.Description).ToList();
         }
 
+        public static List<Discount> GetDiscounts(int companyId)
+        {
+            var discounts = db.Discounts.Where(c => c.CompanyId == companyId).ToList();
+            discounts.Add(new Discount
+            {
+                DiscountId = 0,
+                Description = "[Select a Discount...]",
+            });
+            return discounts.OrderBy(d => d.Description).ToList();
+        }
+
         public static List<City> GetCities()
         {
             var cities = db.Cities.ToList();
@@ -99,7 +110,7 @@ namespace MediterraneoBack.Classes
                        join co in db.Companies on cc.CompanyId equals co.CompanyId
                        where co.CompanyId == companyId
                        select new { cu }).ToList();
-
+            
             var salespersons = new List<Salesperson>();
             foreach (var item in qry)
             {
@@ -113,5 +124,7 @@ namespace MediterraneoBack.Classes
             });
             return salespersons.OrderBy(d => d.FirstName).ThenBy(c => c.LastName).ToList();
         }
+
+        
     }
 }

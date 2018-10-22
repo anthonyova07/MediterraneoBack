@@ -36,7 +36,7 @@ namespace MediterraneoBack.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tax tax = db.Taxes.Find(id);
+            var tax = db.Taxes.Find(id);
             if (tax == null)
             {
                 return HttpNotFound();

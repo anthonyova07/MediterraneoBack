@@ -58,20 +58,27 @@ namespace MediterraneoBack.Models
         public virtual ICollection<Tax> Taxes { get; set; }
 
         [JsonIgnore]
+        public virtual ICollection<Discount> Discounts { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<Product> Products { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<CompanyCustomer> CompanyCustomers { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<Warehouse> Warehouses { get; set; }
 
-        //public virtual Category Category { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Order> Orders { get; set; }
 
+        [JsonIgnore]
         public IEnumerable<Department> Departments { get; set; }
 
+        [JsonIgnore]
         public IEnumerable<City> Cities { get; set; }
 
-        public virtual ICollection<Order> Orders { get; set; }
+        
 
 
 

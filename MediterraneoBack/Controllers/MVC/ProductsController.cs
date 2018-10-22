@@ -29,7 +29,7 @@ namespace MediterraneoBack.Controllers
 
             var products = db.Products
                 .Include(p => p.Category)
-                .Include(p => p.Tax)                
+                .Include(p => p.Tax) 
                 .Where(p => p.CompanyId == user.CompanyId);
 
             return View(products

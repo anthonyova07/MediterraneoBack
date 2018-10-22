@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -32,6 +33,11 @@ namespace MediterraneoBack.Models
         public double TaxRate { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
+        [Range(0, double.MaxValue, ErrorMessage = "The {0} must be between {1} and {2}")]
+        [Display(Name = "Discount rate")]
+        public double DiscountRate { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is required")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         [Range(0, double.MaxValue, ErrorMessage = "You must enter values in {0} between {1} and {2}")]
         public decimal Price { get; set; }
@@ -39,12 +45,14 @@ namespace MediterraneoBack.Models
         [Required(ErrorMessage = "The field {0} is required")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         [Range(0, int.MaxValue, ErrorMessage = "You must enter values in {0} between {1} and {2}")]
-
         public int Quantity { get; set; }
 
+        [JsonIgnore]
         public virtual Order Order { get; set; }
 
+        [JsonIgnore]
         public virtual Product Product { get; set; }
+
 
 
     }

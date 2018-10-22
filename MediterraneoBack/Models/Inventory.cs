@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,8 +21,10 @@ namespace MediterraneoBack.Models
         [DisplayFormat(DataFormatString = "{0:D}", ApplyFormatInEditMode = false)]
         public int Stock { get; set; }
 
+        [JsonIgnore]
         public virtual Warehouse Warehouse { get; set; }
 
+        [JsonIgnore]
         public virtual Product Product { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -27,22 +28,41 @@ namespace MediterraneoBack.Models
         public int StateId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a {0}")]
+        [Display(Name = "Discount")]
+        public int? DiscountId { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is required")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
         [DataType(DataType.MultilineText)]
-        public string Remarks { get; set; }
+        public string Remarks { get; set; }        
 
+        public List<OrderDetailTmp> Details { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
+        public decimal TotalValue { get { return Details == null ? 0 : Details.Sum(d => d.Value); } }
+
+        [JsonIgnore]
         public virtual Salesperson Salesperson { get; set; }
 
+        [JsonIgnore]
         public virtual State State { get; set; }
 
+        [JsonIgnore]
         public virtual Company Company { get; set; }
 
+        [JsonIgnore]
+        public virtual Discount Discount { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
+        [JsonIgnore]
+        public virtual ICollection<OrderDetailTmp> OrderDetailTmps { get; set; }
 
-
+      
     }
 }

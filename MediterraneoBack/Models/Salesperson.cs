@@ -52,15 +52,22 @@ namespace MediterraneoBack.Models
         [Display(Name = "Cliente")]
         public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
 
-        
+        [JsonIgnore]
         public virtual Department Department { get; set; }
 
-        
+        [JsonIgnore]
         public virtual City City { get; set; }
-        
+
+        [JsonIgnore]
+        public virtual Company Company { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<Order> Orders { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<CompanyCustomer> CompanyCustomers { get; set; }
+        
+
 
     }
 }

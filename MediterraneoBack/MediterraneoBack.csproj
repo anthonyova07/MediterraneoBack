@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
@@ -220,13 +223,17 @@
     <Compile Include="Classes\MovementsHelper.cs" />
     <Compile Include="Classes\UserResponse.cs" />
     <Compile Include="Classes\UsersHelper.cs" />
+    <Compile Include="Controllers\API\InventoriesController.cs" />
+    <Compile Include="Controllers\API\OrdersController.cs" />
     <Compile Include="Controllers\API\ProductsController.cs" />
+    <Compile Include="Controllers\API\SalespersonsController.cs" />
     <Compile Include="Controllers\API\UsersController.cs" />
     <Compile Include="Controllers\MVC\AccountController.cs" />
     <Compile Include="Controllers\MVC\CategoriesController.cs" />
     <Compile Include="Controllers\MVC\CitiesController.cs" />
     <Compile Include="Controllers\MVC\CompaniesController.cs" />
     <Compile Include="Controllers\MVC\DepartmentsController.cs" />
+    <Compile Include="Controllers\MVC\DiscountsController.cs" />
     <Compile Include="Controllers\MVC\HomeController.cs" />
     <Compile Include="Controllers\MVC\ManageController.cs" />
     <Compile Include="Controllers\MVC\OrdersController.cs" />
@@ -379,6 +386,94 @@
     <Compile Include="Migrations\201808271421397_Initial34.Designer.cs">
       <DependentUpon>201808271421397_Initial34.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809192014261_Initial35.cs" />
+    <Compile Include="Migrations\201809192014261_Initial35.Designer.cs">
+      <DependentUpon>201809192014261_Initial35.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810051602059_Initial36.cs" />
+    <Compile Include="Migrations\201810051602059_Initial36.Designer.cs">
+      <DependentUpon>201810051602059_Initial36.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810052018414_Initial37.cs" />
+    <Compile Include="Migrations\201810052018414_Initial37.Designer.cs">
+      <DependentUpon>201810052018414_Initial37.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810052031483_Initial38.cs" />
+    <Compile Include="Migrations\201810052031483_Initial38.Designer.cs">
+      <DependentUpon>201810052031483_Initial38.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810052043278_Initial39.cs" />
+    <Compile Include="Migrations\201810052043278_Initial39.Designer.cs">
+      <DependentUpon>201810052043278_Initial39.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810082014577_Initial40.cs" />
+    <Compile Include="Migrations\201810082014577_Initial40.Designer.cs">
+      <DependentUpon>201810082014577_Initial40.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810082025484_Initial41.cs" />
+    <Compile Include="Migrations\201810082025484_Initial41.Designer.cs">
+      <DependentUpon>201810082025484_Initial41.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810171336230_Initial42.cs" />
+    <Compile Include="Migrations\201810171336230_Initial42.Designer.cs">
+      <DependentUpon>201810171336230_Initial42.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810182032150_Initial43.cs" />
+    <Compile Include="Migrations\201810182032150_Initial43.Designer.cs">
+      <DependentUpon>201810182032150_Initial43.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810182047430_Initial44.cs" />
+    <Compile Include="Migrations\201810182047430_Initial44.Designer.cs">
+      <DependentUpon>201810182047430_Initial44.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810182051141_Initial45.cs" />
+    <Compile Include="Migrations\201810182051141_Initial45.Designer.cs">
+      <DependentUpon>201810182051141_Initial45.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810182120273_Initial46.cs" />
+    <Compile Include="Migrations\201810182120273_Initial46.Designer.cs">
+      <DependentUpon>201810182120273_Initial46.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810182147512_Initial47.cs" />
+    <Compile Include="Migrations\201810182147512_Initial47.Designer.cs">
+      <DependentUpon>201810182147512_Initial47.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810190227054_Initial48.cs" />
+    <Compile Include="Migrations\201810190227054_Initial48.Designer.cs">
+      <DependentUpon>201810190227054_Initial48.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810190400499_Initial49.cs" />
+    <Compile Include="Migrations\201810190400499_Initial49.Designer.cs">
+      <DependentUpon>201810190400499_Initial49.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810191444468_Initial50.cs" />
+    <Compile Include="Migrations\201810191444468_Initial50.Designer.cs">
+      <DependentUpon>201810191444468_Initial50.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810191533411_Initial51.cs" />
+    <Compile Include="Migrations\201810191533411_Initial51.Designer.cs">
+      <DependentUpon>201810191533411_Initial51.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810191537399_Initial52.cs" />
+    <Compile Include="Migrations\201810191537399_Initial52.Designer.cs">
+      <DependentUpon>201810191537399_Initial52.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810191543091_Initial53.cs" />
+    <Compile Include="Migrations\201810191543091_Initial53.Designer.cs">
+      <DependentUpon>201810191543091_Initial53.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810191607398_Initial54.cs" />
+    <Compile Include="Migrations\201810191607398_Initial54.Designer.cs">
+      <DependentUpon>201810191607398_Initial54.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810191625317_Initial55.cs" />
+    <Compile Include="Migrations\201810191625317_Initial55.Designer.cs">
+      <DependentUpon>201810191625317_Initial55.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810191637542_Initial56.cs" />
+    <Compile Include="Migrations\201810191637542_Initial56.Designer.cs">
+      <DependentUpon>201810191637542_Initial56.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddProductView.cs" />
@@ -387,6 +482,7 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CompanyCustomer.cs" />
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Discount.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\LoginRequest.cs" />
@@ -397,6 +493,7 @@
     <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\OrderDetailTmp.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductMainView.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\Salesperson.cs" />
     <Compile Include="Models\State.cs" />
@@ -547,6 +644,11 @@
     <Content Include="Views\States\Edit.cshtml" />
     <Content Include="Views\States\Index.cshtml" />
     <Content Include="Views\Orders\AddProduct.cshtml" />
+    <Content Include="Views\Discounts\Create.cshtml" />
+    <Content Include="Views\Discounts\Delete.cshtml" />
+    <Content Include="Views\Discounts\Details.cshtml" />
+    <Content Include="Views\Discounts\Edit.cshtml" />
+    <Content Include="Views\Discounts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -669,6 +771,72 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808271421397_Initial34.resx">
       <DependentUpon>201808271421397_Initial34.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809192014261_Initial35.resx">
+      <DependentUpon>201809192014261_Initial35.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810051602059_Initial36.resx">
+      <DependentUpon>201810051602059_Initial36.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810052018414_Initial37.resx">
+      <DependentUpon>201810052018414_Initial37.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810052031483_Initial38.resx">
+      <DependentUpon>201810052031483_Initial38.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810052043278_Initial39.resx">
+      <DependentUpon>201810052043278_Initial39.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810082014577_Initial40.resx">
+      <DependentUpon>201810082014577_Initial40.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810082025484_Initial41.resx">
+      <DependentUpon>201810082025484_Initial41.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810171336230_Initial42.resx">
+      <DependentUpon>201810171336230_Initial42.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810182032150_Initial43.resx">
+      <DependentUpon>201810182032150_Initial43.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810182047430_Initial44.resx">
+      <DependentUpon>201810182047430_Initial44.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810182051141_Initial45.resx">
+      <DependentUpon>201810182051141_Initial45.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810182120273_Initial46.resx">
+      <DependentUpon>201810182120273_Initial46.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810182147512_Initial47.resx">
+      <DependentUpon>201810182147512_Initial47.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810190227054_Initial48.resx">
+      <DependentUpon>201810190227054_Initial48.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810190400499_Initial49.resx">
+      <DependentUpon>201810190400499_Initial49.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810191444468_Initial50.resx">
+      <DependentUpon>201810191444468_Initial50.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810191533411_Initial51.resx">
+      <DependentUpon>201810191533411_Initial51.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810191537399_Initial52.resx">
+      <DependentUpon>201810191537399_Initial52.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810191543091_Initial53.resx">
+      <DependentUpon>201810191543091_Initial53.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810191607398_Initial54.resx">
+      <DependentUpon>201810191607398_Initial54.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810191625317_Initial55.resx">
+      <DependentUpon>201810191625317_Initial55.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810191637542_Initial56.resx">
+      <DependentUpon>201810191637542_Initial56.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

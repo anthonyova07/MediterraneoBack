@@ -20,6 +20,11 @@ namespace MediterraneoBack.Models
         public int ProductId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
+        [MaxLength(13, ErrorMessage = "The field {0} must be maximum {1} characters length")]
+        [Display(Name = "Bar Code")]
+        public string BarCode { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is required")]
         [MaxLength(50, ErrorMessage = "The field {0} must be maximum {1} characters length")]        
         public string Reference { get; set; }
 
@@ -33,6 +38,12 @@ namespace MediterraneoBack.Models
         [Range(0, 1, ErrorMessage = "You must select a {0} between {1} and {2}")]
         [Display(Name = "Tax rate")]
         public double TaxRate { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is required")]
+        [DisplayFormat(DataFormatString = "{0:P2}", ApplyFormatInEditMode = false)]
+        [Range(0, 1, ErrorMessage = "You must select a {0} between {1} and {2}")]
+        [Display(Name = "Discount rate")]
+        public double DiscountRate { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
@@ -54,6 +65,8 @@ namespace MediterraneoBack.Models
         public decimal Value { get { return Price * (decimal)Quantity; } }
 
         public virtual Product Product { get; set; }
+
+        public virtual Order Order { get; set; }
 
     }
 }

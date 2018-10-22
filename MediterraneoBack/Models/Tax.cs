@@ -23,7 +23,6 @@ namespace MediterraneoBack.Models
         [Range(0, 1, ErrorMessage = "You must select a {0} between {1} and {2}")]
         public double Rate { get; set; }
 
-
         [Required(ErrorMessage = "The field {0} is required")]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
         [Index("Tax_CompanyId_Description_Index", 1, IsUnique = true)]

@@ -31,6 +31,8 @@ namespace MediterraneoBack.Models
 
         public DbSet<Tax> Taxes { get; set; }
 
+        public DbSet<Discount> Discounts { get; set; }
+
         public DbSet<Product> Products { get; set; }
 
         public DbSet<Warehouse> Warehouses { get; set; }
@@ -49,6 +51,6 @@ namespace MediterraneoBack.Models
 
         public DbSet<CompanyCustomer> CompanyCustomers { get; set; }
 
-        
+
     }
 }
