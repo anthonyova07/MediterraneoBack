@@ -46,7 +46,6 @@ namespace MediterraneoBack.Classes
                         var orderDetail = new OrderDetail
                         {
                             Description = detail.Description,
-                            BarCode = detail.BarCode,
                             Reference = detail.Reference,
                             OrderId = order.OrderId,                            
                             Price = detail.Price,

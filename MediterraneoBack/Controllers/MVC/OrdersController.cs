@@ -144,8 +144,7 @@ namespace MediterraneoBack.Controllers.MVC
                 if (response.IsSucces)
                 {
                     DataTable dt = new DataTable();
-                    dt.Columns.AddRange(new DataColumn[6]{
-                        new DataColumn("COD_BARRA"),
+                    dt.Columns.AddRange(new DataColumn[5]{
                         new DataColumn("REFERENCIA"),
                         new DataColumn("CANTIDAD"),
                         new DataColumn("DESCRIPCION"),                        
@@ -161,11 +160,10 @@ namespace MediterraneoBack.Controllers.MVC
                                let topOrders = ordd.Take(1).Select(p => p.OrderId).Distinct()                               
                                where topOrders.Contains(o.OrderId)
                                select o).ToList();
-                    
 
                     foreach (var item in qry)
                     {
-                        dt.Rows.Add(item.BarCode,item.Reference, item.Quantity ,item.Description, item.Price.ToString("#,##0").PadLeft(6), (item.Price * item.Quantity).ToString("#,##0").PadLeft(6));
+                        dt.Rows.Add(item.Reference, item.Quantity ,item.Description, item.Price.ToString("#,##0").PadLeft(6), (item.Price * item.Quantity).ToString("#,##0").PadLeft(6));
                     }
                     SendPDFEmail(dt,view);  
                     return RedirectToAction("Index");
@@ -233,11 +231,11 @@ namespace MediterraneoBack.Controllers.MVC
                     sb.Append("<table width='100%' cellspacing='0' cellpadding='0'>");
                     sb.Append("<tr>");
                     sb.Append("<td>");
-                    sb.Append("<img src='"+ filepath+ "'width='140' height='100' align='center'/>");
+                    sb.Append("<img src='"+ filepath+ "'width='130' height='100' align='center'/>");
                     sb.Append("</td>");
                     sb.Append("</tr>");
                     //sb.Append("<tr><td align='center' style='background-color: #18B5F0' colspan = '2'><b> MEDITERRANEO INTERNACIONAL SRL </b></td></tr>");
-                    sb.Append("<tr><td align='center' style='background-color: #18B5F0' colspan = '2'><b>ORDEN DE PEDIDO</b></td></tr>");
+                    sb.Append("<tr><td align='center' style='background-color: #18B5F0' colspan = '2'><b>HOJA DE PEDIDO</b></td></tr>");
                     sb.Append("<tr><td colspan = '2'></td></tr>");
                     sb.Append("<tr><td><b># ORDEN: </b>");
                     sb.Append(orderNo);

@@ -474,10 +474,6 @@
     <Compile Include="Migrations\201810191637542_Initial56.Designer.cs">
       <DependentUpon>201810191637542_Initial56.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810221341537_BarCode.cs" />
-    <Compile Include="Migrations\201810221341537_BarCode.Designer.cs">
-      <DependentUpon>201810221341537_BarCode.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddProductView.cs" />
@@ -841,9 +837,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810191637542_Initial56.resx">
       <DependentUpon>201810191637542_Initial56.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810221341537_BarCode.resx">
-      <DependentUpon>201810221341537_BarCode.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
