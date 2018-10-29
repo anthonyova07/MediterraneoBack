@@ -30,7 +30,7 @@ namespace MediterraneoBack.Models
         [Required(ErrorMessage = "The field {0} is required")]
         [Range(1, int.MaxValue, ErrorMessage = "You must select a {0}")]
         [Display(Name = "Discount")]
-        public int? DiscountId { get; set; }
+        public double DiscountId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
         [DataType(DataType.Date)]
@@ -38,6 +38,7 @@ namespace MediterraneoBack.Models
         public DateTime Date { get; set; }
 
         [DataType(DataType.MultilineText)]
+        [MaxLength(72, ErrorMessage = "The filed {0} must be maximun {1} characters length")]
         public string Remarks { get; set; }        
 
         public List<OrderDetailTmp> Details { get; set; }

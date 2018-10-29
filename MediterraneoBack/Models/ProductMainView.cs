@@ -9,6 +9,7 @@ namespace MediterraneoBack.Models
     {
 
         public AddProductView addproductmodel { get; set; }
+        public AddProductDescrView addproductdescrmodel { get; set; }
         public NewOrderView newordermodel { get; set; }
 
 

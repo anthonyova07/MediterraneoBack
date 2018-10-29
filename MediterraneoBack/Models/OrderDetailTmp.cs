@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace MediterraneoBack.Models
 {
@@ -44,6 +45,7 @@ namespace MediterraneoBack.Models
         [Range(0, 1, ErrorMessage = "You must select a {0} between {1} and {2}")]
         [Display(Name = "Discount rate")]
         public double DiscountRate { get; set; }
+               
 
         [Required(ErrorMessage = "The field {0} is required")]
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
@@ -58,7 +60,6 @@ namespace MediterraneoBack.Models
         [Required(ErrorMessage = "The field {0} is required")]
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         [Range(0, int.MaxValue, ErrorMessage = "You must enter values in {0} between {1} and {2}")]
-
         public int Quantity { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]

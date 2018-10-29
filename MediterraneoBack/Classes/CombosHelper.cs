@@ -26,6 +26,12 @@ namespace MediterraneoBack.Classes
         public static List<Product> GetProducts(int companyId, bool sw)
         {
             var products = db.Products.Where(p => p.CompanyId == companyId).ToList();
+            return products.OrderByDescending(p => p.BarCode).ToList();
+        }
+
+        public static List<Product> GetProductsDescr(int companyId, bool sw)
+        {
+            var products = db.Products.Where(p => p.CompanyId == companyId).ToList();
             return products.OrderBy(p => p.Description).ToList();
         }
 
@@ -38,7 +44,19 @@ namespace MediterraneoBack.Classes
                 ProductId = 0,
                 Description = "[Select a product...]",
             });
-            return products.OrderBy(p => p.BarCode).ToList();
+            return products.OrderByDescending(p => p.BarCode).ToList();
+
+        }
+
+        public static List<Product> GetProductsDescr(int companyId)
+        {
+            var products = db.Products.Where(p => p.CompanyId == companyId).ToList();
+            products.Add(new Product
+            {
+                ProductId = 0,
+                Description = "[Select a product...]",
+            });
+            return products.OrderBy(p => p.Description).ToList();
 
         }
 

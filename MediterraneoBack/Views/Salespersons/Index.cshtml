@@ -7,7 +7,7 @@
 <h2>CLIENTES</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Crear Nuevo", "Create", new { }, new { @class = "btn btn-primary" })
 </p>
 <table class="table">
     <tr>
@@ -25,6 +25,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RNC)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Address)
@@ -50,12 +53,15 @@
             @Html.DisplayFor(modelItem => item.Phone)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.RNC)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Address)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SalespersonId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SalespersonId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SalespersonId })
+            @Html.ActionLink("Edit", "Edit", new { id = item.SalespersonId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.SalespersonId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.SalespersonId })
         </td>
     </tr>
 }

@@ -20,6 +20,8 @@ namespace MediterraneoBack.Classes
 
         public string Phone { get; set; }
 
+        public string RNC { get; set; }
+
         public string Address { get; set; }
 
         public int DepartmentId { get; set; }

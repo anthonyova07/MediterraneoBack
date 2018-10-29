@@ -24,8 +24,15 @@ namespace MediterraneoBack.Controllers
             var qry = (from cu in db.Salespersons
                        join cc in db.CompanyCustomers on cu.SalespersonId equals cc.SalespersonId
                        join co in db.Companies on cc.CompanyId equals co.CompanyId
-                       where co.CompanyId == user.CompanyId
+                       orderby cu.SalespersonId descending
                        select new { cu }).ToList();
+
+            //var qry = (
+
+            //            from cu in db.Salespersons
+            //            join cc in db.CompanyCustomers on cu.SalespersonId equals cc.SalespersonId                        
+            //            orderby cu.SalespersonId descending
+            //            select new { cu }).ToList();
 
             var salespersons = new List<Salesperson>();
             foreach (var item in qry)

@@ -30,7 +30,7 @@ namespace MediterraneoBack.Classes
                     {
                         CompanyId = user.CompanyId,
                         SalespersonId = view.SalespersonId,
-                        DiscountId = view.DiscountId,
+                        DiscountId = Convert.ToInt32(view.DiscountId),
                         
                         Date = view.Date,                        
                         Remarks = view.Remarks,                        
@@ -46,6 +46,7 @@ namespace MediterraneoBack.Classes
                         var orderDetail = new OrderDetail
                         {
                             Description = detail.Description,
+                            BarCode = detail.BarCode,
                             Reference = detail.Reference,
                             OrderId = order.OrderId,                            
                             Price = detail.Price,
@@ -53,6 +54,7 @@ namespace MediterraneoBack.Classes
                             Quantity = detail.Quantity,
                             TaxRate = detail.TaxRate,
                         };
+
 
                         db.OrderDetails.Add(orderDetail);
                         db.OrderDetailTmps.Remove(detail);
