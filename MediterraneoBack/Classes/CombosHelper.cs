@@ -109,6 +109,17 @@ namespace MediterraneoBack.Classes
             return discounts.OrderBy(d => d.Description).ToList();
         }
 
+        public static List<Condition> GetConditions(int companyId)
+        {
+            var conditions = db.Conditions.Where(c => c.CompanyId == companyId).ToList();
+            conditions.Add(new Condition
+            {
+                ConditionId = 0,
+                Description = "[Select a Condition...]",
+            });
+            return conditions.OrderBy(d => d.Description).ToList();
+        }
+
         public static List<City> GetCities()
         {
             var cities = db.Cities.ToList();

@@ -33,6 +33,11 @@ namespace MediterraneoBack.Models
         public double DiscountId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a {0}")]
+        [Display(Name = "Condition")]
+        public int? ConditionId { get; set; }
+
+        [Required(ErrorMessage = "The field {0} is required")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
@@ -57,6 +62,9 @@ namespace MediterraneoBack.Models
 
         [JsonIgnore]
         public virtual Discount Discount { get; set; }
+
+        [JsonIgnore]
+        public virtual Condition Condition { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }

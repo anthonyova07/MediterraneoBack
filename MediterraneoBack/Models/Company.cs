@@ -61,6 +61,9 @@ namespace MediterraneoBack.Models
         public virtual ICollection<Discount> Discounts { get; set; }
 
         [JsonIgnore]
+        public virtual ICollection<Condition> Conditions { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<Product> Products { get; set; }
 
         [JsonIgnore]

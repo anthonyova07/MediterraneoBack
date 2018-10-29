@@ -44,6 +44,13 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
+                    @Html.LabelFor(model => model.ConditionId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("ConditionId", null, htmlAttributes: new { @class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.ConditionId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
                     @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
@@ -52,12 +59,12 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
+                    <div class="col-md-offset-2 col-md-12">
                         @using (Html.BeginForm("Create", "Orders", FormMethod.Post))
                         {
                             <input type="submit" value="Save Order" class="btn btn-primary" onclick="Confirm()" />
                         }
-                        @*<input type="submit" value="Save Order" class="btn btn-primary" onclick="return confirm('DESEA ENVIAR LA PROFORMA AL CLIENTE?')" />*@                       
+                        @*<input type="submit" value="Save Order" class="btn btn-primary" onclick="return confirm('DESEA ENVIAR LA PROFORMA AL CLIENTE?')" />*@
                         @Html.ActionLink("Productos X Codigo", "AddProduct", "Orders", new { }, new { @class = "dialog-window btn btn-info" })
                         @Html.ActionLink("Productos X Nombre", "AddProductDescr", "Orders", new { }, new { @class = "dialog-window btn btn-info" })
                         @Html.ActionLink("Back to Orders", "Index", new { }, new { @class = "btn btn-success" })
@@ -74,7 +81,7 @@
 <table class="table">
     <tr>
         <td colspan="5" align="center">
-            <strong>TOTAL</strong>
+            <strong><font size="4">TOTAL</font></strong>
         </td>
     </tr>
 
@@ -200,35 +207,35 @@
             case 1:
                 <tr align="left">
                     <td align="center">
-                        <strong> <font size="5">VALOR NETO:  RD$@((Model.TotalBruto - Model.TotalBruto * 0) + ((Model.TotalBruto - Model.TotalBruto * 0) * 0.18)) </font></strong>
+                        <strong> <font size="4">VALOR NETO:  RD$@((Model.TotalBruto - Model.TotalBruto * 0) + ((Model.TotalBruto - Model.TotalBruto * 0) * 0.18)) </font></strong>
                     </td>
                 </tr>
                 break;
             case 2:
                 <tr align="left">
                     <td align="center">
-                        <strong> <font size="5">VALOR NETO:  RD$@((Model.TotalBruto - Model.TotalBruto * 0.1) + ((Model.TotalBruto - Model.TotalBruto * 0.1) * 0.18)) </font> </strong>
+                        <strong> <font size="4">VALOR NETO:  RD$@((Model.TotalBruto - Model.TotalBruto * 0.1) + ((Model.TotalBruto - Model.TotalBruto * 0.1) * 0.18)) </font> </strong>
                     </td>
                 </tr>
                 break;
             case 3:
                 <tr align="left">
                     <td align="center">
-                        <strong> <font size="5">VALOR NETO:  RD$@((Model.TotalBruto - Model.TotalBruto * 0.15) + ((Model.TotalBruto - Model.TotalBruto * 0.15) * 0.18)) </font></strong>
+                        <strong> <font size="4">VALOR NETO:  RD$@((Model.TotalBruto - Model.TotalBruto * 0.15) + ((Model.TotalBruto - Model.TotalBruto * 0.15) * 0.18)) </font></strong>
                     </td>
                 </tr>
                 break;
             case 4:
                 <tr align="left">
                     <td align="center">
-                        <strong> <font size="5">VALOR NETO:  RD$@((Model.TotalBruto - Model.TotalBruto * 0.18) + ((Model.TotalBruto - Model.TotalBruto * 0.18) * 0.18))</font></strong>
+                        <strong> <font size="4">VALOR NETO:  RD$@((Model.TotalBruto - Model.TotalBruto * 0.18) + ((Model.TotalBruto - Model.TotalBruto * 0.18) * 0.18))</font></strong>
                     </td>
                 </tr>
                 break;
             case 5:
                 <tr align="left">
                     <td align="center">
-                        <strong> <font size="5">VALOR NETO: RD$@((Model.TotalBruto - Model.TotalBruto * 0.25) + ((Model.TotalBruto - Model.TotalBruto * 0.25) * 0.18))</font></strong>
+                        <strong> <font size="4">VALOR NETO: RD$@((Model.TotalBruto - Model.TotalBruto * 0.25) + ((Model.TotalBruto - Model.TotalBruto * 0.25) * 0.18))</font></strong>
                     </td>
                 </tr>
                 break;
@@ -236,7 +243,7 @@
             default:
                 <tr align="left">
                     <td align="center">
-                        <strong> <font size="5">VALOR NETO:  RD$@((Model.TotalBruto - Model.TotalBruto * 0) + ((Model.TotalBruto - Model.TotalBruto * 0) * 0.18)) </font></strong>
+                        <strong> <font size="4">VALOR NETO:  RD$@((Model.TotalBruto - Model.TotalBruto * 0) + ((Model.TotalBruto - Model.TotalBruto * 0) * 0.18)) </font></strong>
                     </td>
                 </tr>
                 break;
@@ -249,7 +256,7 @@
         </tr>*@
 </table>
 @*<h4>DETALLES</h4>*@
-<hr />
+@*<br />*@
 @if (Model.Details.Count == 0)
 {
     <h5>No details added yet</h5>

@@ -237,6 +237,7 @@
     <Compile Include="Controllers\MVC\CategoriesController.cs" />
     <Compile Include="Controllers\MVC\CitiesController.cs" />
     <Compile Include="Controllers\MVC\CompaniesController.cs" />
+    <Compile Include="Controllers\MVC\ConditionsController.cs" />
     <Compile Include="Controllers\MVC\DepartmentsController.cs" />
     <Compile Include="Controllers\MVC\DiscountsController.cs" />
     <Compile Include="Controllers\MVC\HomeController.cs" />
@@ -503,6 +504,14 @@
     <Compile Include="Migrations\201810231721406_Initial60.Designer.cs">
       <DependentUpon>201810231721406_Initial60.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810291456387_Initial61.cs" />
+    <Compile Include="Migrations\201810291456387_Initial61.Designer.cs">
+      <DependentUpon>201810291456387_Initial61.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810291509006_ConditionId.cs" />
+    <Compile Include="Migrations\201810291509006_ConditionId.Designer.cs">
+      <DependentUpon>201810291509006_ConditionId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AddProductDescrView.cs" />
@@ -511,6 +520,7 @@
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CompanyCustomer.cs" />
+    <Compile Include="Models\Condition.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Discount.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -680,6 +690,11 @@
     <Content Include="Views\Discounts\Edit.cshtml" />
     <Content Include="Views\Discounts\Index.cshtml" />
     <Content Include="Views\Orders\AddProductDescr.cshtml" />
+    <Content Include="Views\Conditions\Create.cshtml" />
+    <Content Include="Views\Conditions\Delete.cshtml" />
+    <Content Include="Views\Conditions\Details.cshtml" />
+    <Content Include="Views\Conditions\Edit.cshtml" />
+    <Content Include="Views\Conditions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -886,6 +901,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810231721406_Initial60.resx">
       <DependentUpon>201810231721406_Initial60.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810291456387_Initial61.resx">
+      <DependentUpon>201810291456387_Initial61.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810291509006_ConditionId.resx">
+      <DependentUpon>201810291509006_ConditionId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

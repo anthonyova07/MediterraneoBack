@@ -31,6 +31,7 @@ namespace MediterraneoBack.Classes
                         CompanyId = user.CompanyId,
                         SalespersonId = view.SalespersonId,
                         DiscountId = Convert.ToInt32(view.DiscountId),
+                        ConditionId = Convert.ToInt32(view.ConditionId),
                         
                         Date = view.Date,                        
                         Remarks = view.Remarks,                        

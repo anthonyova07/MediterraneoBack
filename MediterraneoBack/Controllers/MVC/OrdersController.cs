@@ -174,6 +174,7 @@ namespace MediterraneoBack.Controllers.MVC
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
             ViewBag.SalespersonId = new SelectList(CombosHelper.GetCustomers(user.CompanyId), "SalespersonId", "FullName");
             ViewBag.DiscountId = new SelectList(CombosHelper.GetDiscounts(user.CompanyId), "DiscountId", "Description");
+            ViewBag.ConditionId = new SelectList(CombosHelper.GetConditions(user.CompanyId), "ConditionId", "Description");
             var view = new NewOrderView
             {
                 Date = DateTime.Now,
@@ -247,6 +248,7 @@ namespace MediterraneoBack.Controllers.MVC
 
             ViewBag.SalespersonId = new SelectList(CombosHelper.GetCustomers(user.CompanyId), "SalespersonId", "FullName");
             ViewBag.DiscountId = new SelectList(CombosHelper.GetDiscounts(user.CompanyId), "DiscountId", "Description");
+            ViewBag.ConditionId = new SelectList(CombosHelper.GetConditions(user.CompanyId), "ConditionId", "Description");
 
             view.Details = db.OrderDetailTmps.Where(odt => odt.UserName == User.Identity.Name).ToList();
             
@@ -277,6 +279,12 @@ namespace MediterraneoBack.Controllers.MVC
                                 join disc in db.Discounts on ord.DiscountId equals disc.DiscountId
                                 orderby ord.OrderId descending
                                 select new { disc.Description, disc.DiscountRate }).FirstOrDefault();
+            var Order_Cond = (
+
+                               from ord in db.Orders
+                               join cond in db.Conditions on ord.ConditionId equals cond.ConditionId
+                               orderby ord.OrderId descending
+                               select new { cond.Description }).FirstOrDefault();
 
             using (StringWriter sw = new StringWriter())
             {
@@ -289,6 +297,7 @@ namespace MediterraneoBack.Controllers.MVC
                     var customerPhone = cust_qry.Phone;
                     string rnc = cust_qry.RNC;
                     string discount = Order_Disc.Description;
+                    string condition = Order_Cond.Description;
                     var disc_rate = Order_Disc.DiscountRate;
                     var orderNo = OrderNo_qry.OrderId.ToString("00###");
 
@@ -335,7 +344,7 @@ namespace MediterraneoBack.Controllers.MVC
                     sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
                     sb.Append("&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;  ");
                     sb.Append("<b>CONDICION: </b>");
-                    sb.Append("CREDITO");
+                    sb.Append(condition);
                     sb.Append("</th></tr>");
 
                     sb.Append("<tr>");
@@ -503,7 +512,7 @@ namespace MediterraneoBack.Controllers.MVC
         {
 
             var cust_qry = (
-
+                
                                from ord in db.Orders
                                join cust in db.Salespersons on ord.SalespersonId equals cust.SalespersonId
                                orderby ord.OrderId descending
@@ -521,6 +530,12 @@ namespace MediterraneoBack.Controllers.MVC
                                 join disc in db.Discounts on ord.DiscountId equals disc.DiscountId
                                 orderby ord.OrderId descending
                                 select new { disc.Description, disc.DiscountRate}).FirstOrDefault();
+            var Order_Cond = (
+
+                               from ord in db.Orders
+                               join cond in db.Conditions on ord.ConditionId equals cond.ConditionId
+                               orderby ord.OrderId descending
+                               select new { cond.Description}).FirstOrDefault();
 
             using (StringWriter sw = new StringWriter())
             {
@@ -533,6 +548,7 @@ namespace MediterraneoBack.Controllers.MVC
                     var customerPhone = cust_qry.Phone;
                     string rnc = cust_qry.RNC;
                     string discount = Order_Disc.Description;
+                    string condition = Order_Cond.Description;
                     var disc_rate = Order_Disc.DiscountRate;
                     var orderNo = OrderNo_qry.OrderId.ToString("00###");
 
@@ -579,7 +595,7 @@ namespace MediterraneoBack.Controllers.MVC
                     sb.Append("&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ");
                     sb.Append("&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;  ");
                     sb.Append("<b>CONDICION: </b>");                   
-                    sb.Append("CREDITO");
+                    sb.Append(condition);
                     sb.Append("</th></tr>");
 
                     sb.Append("<tr>");
@@ -696,20 +712,20 @@ namespace MediterraneoBack.Controllers.MVC
                         MemoryStream ms = new MemoryStream();
                         ms = DataTableToExcelXlsx(dt, "PROFORMA_");
                         ms.Position = 0;
-                        //MailMessage mm = new MailMessage("mediterraneoapp@gmail.com", "anthonyovalles@gmail.com");
-                        ////mm.To.Add(new MailAddress("v.ogando@mediterraneo.com.do"));
-                        ////mm.To.Add(new MailAddress(User.Identity.Name));                        
-                        //mm.Subject = "Nueva Orden de Pedido No_" + orderNo;
-                        //mm.Body = "Adjunto esta la ORDEN realizada por: " + User.Identity.Name + ", Observaciones: " + view.Remarks;
-                        //mm.Attachments.Add(new Attachment(new MemoryStream(bytes), "OrdenDePedido_" + orderNo + ".pdf"));
+                        MailMessage mm = new MailMessage("mediterraneoapp@gmail.com", "v.ogando@mediterraneo.com.do");
+                        //mm.To.Add(new MailAddress("v.ogando@mediterraneo.com.do"));
+                        mm.To.Add(new MailAddress(User.Identity.Name));                        
+                        mm.Subject = "Nueva Orden de Pedido No_" + orderNo;
+                        mm.Body = "Adjunto esta la ORDEN realizada por: " + User.Identity.Name + ", Observaciones: " + view.Remarks;
+                        mm.Attachments.Add(new Attachment(new MemoryStream(bytes), "OrdenDePedido_" + orderNo + ".pdf"));
 
-                        MailMessage clientmail = new MailMessage("mediterraneoapp@gmail.com", "anthonyovalles@gmail.com");
+                        MailMessage clientmail = new MailMessage("mediterraneoapp@gmail.com", customerEmail);
                         clientmail.Subject = "Nueva Orden de Pedido No_" + orderNo;
                         clientmail.Body = "Adjunto esta la ORDEN realizada por: " + User.Identity.Name + ", Observaciones: " + view.Remarks + "<br /> GRACIAS POR PREFERIRNOS!!!";
                         clientmail.Attachments.Add(new Attachment(new MemoryStream(bytes), "OrdenDePedido_" + orderNo + ".pdf"));
                         clientmail.Attachments.Add(new Attachment(ms, "PROFORMA_" + orderNo + ".xlsx"));
                         clientmail.IsBodyHtml = true;
-                        //mm.IsBodyHtml = true;                        
+                        mm.IsBodyHtml = true;                        
                         SmtpClient smtp = new SmtpClient();
                         smtp.Host = "smtp.gmail.com";
                         smtp.EnableSsl = true;
@@ -720,7 +736,7 @@ namespace MediterraneoBack.Controllers.MVC
                         smtp.UseDefaultCredentials = false;
                         smtp.Credentials = NetworkCred;
                         smtp.Port = 587;
-                        //smtp.Send(mm);
+                        smtp.Send(mm);
                         smtp.Send(clientmail);
                     }   
                 }

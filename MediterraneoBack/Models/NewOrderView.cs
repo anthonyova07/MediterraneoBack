@@ -26,7 +26,12 @@ namespace MediterraneoBack.Models
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
         [Display(Name = "Discount")]
         public int? DiscountId { get; set; }
-        
+
+        [Required(ErrorMessage = "The field {0} is required")]
+        [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
+        [Display(Name = "Condition")]
+        public int ConditionId { get; set; }
+
         public List<OrderDetailTmp> Details { get; set; }
             
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]

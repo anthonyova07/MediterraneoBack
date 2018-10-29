@@ -33,6 +33,8 @@ namespace MediterraneoBack.Models
 
         public DbSet<Discount> Discounts { get; set; }
 
+        public DbSet<Condition> Conditions { get; set; }
+
         public DbSet<Product> Products { get; set; }
 
         public DbSet<Warehouse> Warehouses { get; set; }
