@@ -4,7 +4,7 @@
     ViewBag.Title = "Descuentos";
 }
 
-<h2>Descuentos</h2>
+<h2>DESCUENTOS</h2>
 
 <p>
     @Html.ActionLink("Crear Nuevo", "Create", new { }, new { @class = "btn btn-primary" })
@@ -35,9 +35,9 @@
             @Html.DisplayFor(modelItem => item.DiscountRate)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.DiscountId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.DiscountId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.DiscountId })
+            @Html.ActionLink("Edit", "Edit", new { id = item.DiscountId }, new { @class = "btn btn-warning" }) |
+            @Html.ActionLink("Details", "Details", new { id = item.DiscountId }, new { @class = "btn btn-info" }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.DiscountId }, new { @class = "btn btn-danger" })
         </td>
     </tr>
 }
