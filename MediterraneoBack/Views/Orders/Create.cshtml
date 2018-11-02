@@ -46,7 +46,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.ConditionId, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("ConditionId", null, htmlAttributes: new { @class = "form-control"})
+                        @Html.DropDownList("ConditionId", null, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.ConditionId, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -64,13 +64,13 @@
                         {
                             <input type="submit" value="Save Order" class="btn btn-primary" onclick="Confirm()" />
                         }
-                        @*<input type="submit" value="Save Order" class="btn btn-primary" onclick="return confirm('DESEA ENVIAR LA PROFORMA AL CLIENTE?')" />*@
                         @Html.ActionLink("Productos X Codigo", "AddProduct", "Orders", new { }, new { @class = "dialog-window btn btn-info" })
                         @Html.ActionLink("Productos X Nombre", "AddProductDescr", "Orders", new { }, new { @class = "dialog-window btn btn-info" })
                         @Html.ActionLink("Back to Orders", "Index", new { }, new { @class = "btn btn-success" })
                     </div>
                 </div>
             </div>
+
 
 
         </div>
@@ -330,35 +330,34 @@ else
             </tr>
         }
 
-        @*<tr>
-
-                <td colspan="5" align="right">
-                    <strong>Total</strong>
-                </td>
-                <td align="center">
-                    <strong> @Html.DisplayFor(modelItem => Model.TotalQuantity)</strong>
-                </td>
-                <td align="center">
-                    <strong>@Html.DisplayFor(modelItem => Model.TotalValue)</strong>
-                </td>
-            </tr>*@
-
     </table>
 
 }
 
-<div class="modal fade" tabindex="-2" role="dialog" id="AddProduct" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+
+@*<div id="AddProduct" tabindex="-2" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>*@
-                <h2 @*class="modal-title"*@> Agregar Productos </h2>
             </div>
-
-            <div class="modal-body"><div class="te">Please wait...</div></div>
+            <div class="modal-body">
+                
+            </div>
+            
         </div>
     </div>
-</div>
+</div>*@
+
+    <div class="modal fade" tabindex="-2" role="dialog" id="AddProduct" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2> Agregar Productos </h2>
+                </div>
+                <div class="modal-body"><div class="te">Please wait...</div></div>
+            </div>
+        </div>
+    </div>
 
 <div class="modal fade" tabindex="-2" role="dialog" id="AddProductDescr" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog" role="document">
@@ -373,108 +372,55 @@ else
 
 
 
-@section Scripts {
+@section Scripts     {
     @Scripts.Render("~/bundles/jqueryval")
-    @*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
-    <script type="text/javascript">
 
-        //$(window).keydown('shiftkey', function (e) {
-        //    e.preventDefault();
-        //    var $link = $(this);
-        //    var title = $link.text();
-        //    $('#AddProduct .modal-title').html(title);
-        //    var url = $(this).attr('href');
-        //    //if ((e.metaKey || e.shiftKey)) {
-        //    $("#AddProduct").modal('show');
-        //    //}
-        //    //else {
-        //    //        $.get(url, function (data) {
-        //    //            $('#AddProduct .te').html(data);
-        //    //            $('#AddProduct').modal();
-        //    //        }).success(function () { $('input:text:visible:first').focus(); });
+    <script>
 
-        //    //    }
-        //});
+        // show the modal onload
+        window.onload = function () {
+            document.querySelector('a.dialog-window').click();
+        };      
 
-        $(document).ready(function () {
-            $("body").on("click", "a.dialog-window", null, function (e) {
-                e.preventDefault();
-                var $link = $(this);
-                var title = $link.text();
-                $('#AddProduct .modal-title').html(title);
-                var url = $(this).attr('href');
-                if (url.indexOf('#') == 0) {
-                    $('#AddProduct').modal('show');
-                }
-                else {
-                    $.get(url, function (data) {
-                        $('#AddProduct .te').html(data);
-                        $('#AddProduct').modal();
-                    }).success(function () { $('input:text:visible:first').focus(); });
-                }
+        // show the modal onclick
+            $(document).ready(function () {
+                $("body").on("click", "a.dialog-window", null, function (e) {
+                    e.preventDefault();
+                    var $link = $(this);
+                    var title = $link.text();
+                    let shownModalHandler = function () {
+                        $("#AddProductDescr").on("shown.bs.modal", function () {
+                            $("#ProductId").focus();
+                        });
+                        $('#AddProductDescr').modal('show');
+                    };
+
+                    $('#AddProductDescr .modal-title').html(title);
+                    var url = $(this).attr('href');
+                    if (url.indexOf('#') == 0) {
+                        shownModalHandler();
+                    }
+                    else {
+                        $.get(url, function (data) {
+                            $('#AddProductDescr .te').html(data);
+                            shownModalHandler();
+                        }).success(function () { $('input:text:visible:first').focus(); });
+                    }
+                });
             });
-        });
 
-        $(document).ready(function () {
-            $("body").on("click", "a.dialog-window", null, function (e) {
-                e.preventDefault();
-                var $link = $(this);
-                var title = $link.text();
-                $('#AddProductDescr .modal-title').html(title);
-                var url = $(this).attr('href');
-                if (url.indexOf('#') == 0) {
-                    $('#AddProductDescr').modal('show');
+
+            function Confirm() {
+                var input = $("<input/>");
+                input.attr("type", "hidden").attr("name", "confirm_value");
+                if (confirm("SI QUIERE ENVIAR CON PROFORMA/PDF PRESIONE ACEPTAR, SOLO PDF PRESIONE CANCELAR!!!")) {
+                    input.val("Yes");
+                } else {
+                    input.val("No");
                 }
-                else {
-                    $.get(url, function (data) {
-                        $('#AddProductDescr .te').html(data);
-                        $('#AddProductDescr').modal();
-                    }).success(function () { $('input:text:visible:first').focus(); });
-                }
-            });
-        });
+                $("form")[0].appendChild(input[0]);
+            };
 
-
-        function Confirm() {
-        var input = $("<input/>");         
-        input.attr("type", "hidden").attr("name", "confirm_value");
-            if (confirm("SI QUIERE ENVIAR CON PROFORMA/PDF PRESIONE ACEPTAR, SOLO PDF PRESIONE CANCELAR!!!")) {
-            input.val("Yes");
-        } else {
-            input.val("No");
-        }
-        $("form")[0].appendChild(input[0]);
-        };
-
-
-    @*$(document).ready(function () {
-
-            var status = '@ViewBag.Status';
-            if (status) {
-                alert("success");
-            } else {
-                alert("error");
-            }
-    });*@
-
-    //$(document).ready(function () {
-    //    var r = confirm("Are you sure you want to submit?");
-    //    if (r == false) {
-    //        return false;
-    //    }
-    //});
-    //$(document).ready(function () {
-    //    $('#AddProduct').modal('show');
-    //});
-
-    //$(window).on('load', function () {
-    //   // e.preventDefault();
-    //    var $link = $(this);
-    //    var title = $link.text();
-    //    $('#AddProduct').modal('show');
-
-
-    //});
 
     </script>
 
@@ -487,7 +433,7 @@ else
         </script>
     }
 }
-    
+
 
 
 

@@ -16,18 +16,17 @@ namespace MediterraneoBack.Models
         [Required(ErrorMessage = "The field {0} is required")]
         [MaxLength(256, ErrorMessage = "The filed {0} must be maximun {1} characters length")]
         [Display(Name = "E-Mail")]
-        [Index("Salesperson_UserName_Index", IsUnique = false)]
         [DataType(DataType.EmailAddress)]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
-        [MaxLength(12, ErrorMessage = "The filed {0} must be maximun {1} characters length")]
-        [Display(Name = "First name")]
+        [MaxLength(40, ErrorMessage = "The filed {0} must be maximun {1} characters length")]
+        [Display(Name = "Representante")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
-        [MaxLength(12, ErrorMessage = "The filed {0} must be maximun {1} characters length")]
-        [Display(Name = "Last name")]
+        [MaxLength(40, ErrorMessage = "The filed {0} must be maximun {1} characters length")]
+        [Display(Name = "Nombre Negocio")]
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]

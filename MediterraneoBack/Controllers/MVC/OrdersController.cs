@@ -172,7 +172,7 @@ namespace MediterraneoBack.Controllers.MVC
         public ActionResult Create()
         {
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-            ViewBag.SalespersonId = new SelectList(CombosHelper.GetCustomers(user.CompanyId), "SalespersonId", "FullName");
+            ViewBag.SalespersonId = new SelectList(CombosHelper.GetCustomers(user.CompanyId), "SalespersonId", "LastName");
             ViewBag.DiscountId = new SelectList(CombosHelper.GetDiscounts(user.CompanyId), "DiscountId", "Description");
             ViewBag.ConditionId = new SelectList(CombosHelper.GetConditions(user.CompanyId), "ConditionId", "Description");
             var view = new NewOrderView
@@ -246,7 +246,7 @@ namespace MediterraneoBack.Controllers.MVC
 
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
 
-            ViewBag.SalespersonId = new SelectList(CombosHelper.GetCustomers(user.CompanyId), "SalespersonId", "FullName");
+            ViewBag.SalespersonId = new SelectList(CombosHelper.GetCustomers(user.CompanyId), "SalespersonId", "LastName");
             ViewBag.DiscountId = new SelectList(CombosHelper.GetDiscounts(user.CompanyId), "DiscountId", "Description");
             ViewBag.ConditionId = new SelectList(CombosHelper.GetConditions(user.CompanyId), "ConditionId", "Description");
 
@@ -676,7 +676,7 @@ namespace MediterraneoBack.Controllers.MVC
                     sb.Append("<tr>");
                     foreach (DataColumn column in dt.Columns)
                     {
-                        sb.Append("<th align='center' width='90%' border = '1' > <font size ='2'> ");
+                        sb.Append("<th align='center' width='100%' border = '1' > <font size ='2'> ");
                         sb.Append("<b>" + column.ColumnName + "</b>");
                         sb.Append("</th>");
                     }
@@ -686,7 +686,7 @@ namespace MediterraneoBack.Controllers.MVC
                         sb.Append("<tr>");
                         foreach (DataColumn column in dt.Columns)
                         {
-                            sb.Append("<td align='center' width='90%' > <font size ='2'>"); 
+                            sb.Append("<td align='center' width='100%' border = '1' > <font size ='2'>"); 
                                  sb.Append(row[column]);
                             sb.Append("</font></td>");
                         }
@@ -714,14 +714,15 @@ namespace MediterraneoBack.Controllers.MVC
                         ms.Position = 0;
                         MailMessage mm = new MailMessage("mediterraneoapp@gmail.com", "v.ogando@mediterraneo.com.do");
                         //mm.To.Add(new MailAddress("v.ogando@mediterraneo.com.do"));
-                        mm.To.Add(new MailAddress(User.Identity.Name));                        
+                        mm.To.Add(new MailAddress(User.Identity.Name));
                         mm.Subject = "Nueva Orden de Pedido No_" + orderNo;
                         mm.Body = "Adjunto esta la ORDEN realizada por: " + User.Identity.Name + ", Observaciones: " + view.Remarks;
                         mm.Attachments.Add(new Attachment(new MemoryStream(bytes), "OrdenDePedido_" + orderNo + ".pdf"));
 
                         MailMessage clientmail = new MailMessage("mediterraneoapp@gmail.com", customerEmail);
+                        //customerEmail
                         clientmail.Subject = "Nueva Orden de Pedido No_" + orderNo;
-                        clientmail.Body = "Adjunto esta la ORDEN realizada por: " + User.Identity.Name + ", Observaciones: " + view.Remarks + "<br /> GRACIAS POR PREFERIRNOS!!!";
+                        clientmail.Body = "Adjunto esta la ORDEN realizada por: " + User.Identity.Name + ", Observaciones: " + view.Remarks + "<br /> ¡¡¡GRACIAS POR PREFERIRNOS!!!";
                         clientmail.Attachments.Add(new Attachment(new MemoryStream(bytes), "OrdenDePedido_" + orderNo + ".pdf"));
                         clientmail.Attachments.Add(new Attachment(ms, "PROFORMA_" + orderNo + ".xlsx"));
                         clientmail.IsBodyHtml = true;
