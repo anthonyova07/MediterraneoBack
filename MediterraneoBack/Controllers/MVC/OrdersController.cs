@@ -668,7 +668,7 @@ namespace MediterraneoBack.Controllers.MVC
                     
                     sb.Append("<tr>");
                     sb.Append("<th align='left'><b>OBSERVACION: </b>");
-                    sb.Append(view.Remarks);
+                    sb.Append(view.Remarks);                    
 
                     sb.Append("</table>");
                     sb.Append("<br />");
@@ -693,6 +693,10 @@ namespace MediterraneoBack.Controllers.MVC
                         sb.Append("</tr>");
                     }
                     sb.Append("</table>");
+                    sb.Append("<br/>");
+                    sb.Append("<i>IMPORTANTE: La presente orden de pedido es de carácter informativo no tiene condición de factura para ningún efecto legal. </i>");
+
+
                     StringReader sr = new StringReader(sb.ToString());
 
                     //, 14f, 14f, 14f, 0f
@@ -726,18 +730,18 @@ namespace MediterraneoBack.Controllers.MVC
                         clientmail.Attachments.Add(new Attachment(new MemoryStream(bytes), "OrdenDePedido_" + orderNo + ".pdf"));
                         clientmail.Attachments.Add(new Attachment(ms, "PROFORMA_" + orderNo + ".xlsx"));
                         clientmail.IsBodyHtml = true;
-                        mm.IsBodyHtml = true;                        
+                        //mm.IsBodyHtml = true;                        
                         SmtpClient smtp = new SmtpClient();
                         smtp.Host = "smtp.gmail.com";
                         smtp.EnableSsl = true;
                         smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                         NetworkCredential NetworkCred = new NetworkCredential();
                         NetworkCred.UserName = "mediterraneoapp@gmail.com";
-                        NetworkCred.Password = "bayovanex0705";
+                        NetworkCred.Password = "B@rone0705";
                         smtp.UseDefaultCredentials = false;
                         smtp.Credentials = NetworkCred;
                         smtp.Port = 587;
-                        smtp.Send(mm);
+                        //smtp.Send(mm);
                         smtp.Send(clientmail);
                     }   
                 }

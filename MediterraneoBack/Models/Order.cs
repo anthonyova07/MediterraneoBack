@@ -43,7 +43,7 @@ namespace MediterraneoBack.Models
         public DateTime Date { get; set; }
 
         [DataType(DataType.MultilineText)]
-        [MaxLength(72, ErrorMessage = "The filed {0} must be maximun {1} characters length")]
+        [MaxLength(200, ErrorMessage = "The filed {0} must be maximun {1} characters length")]
         public string Remarks { get; set; }        
 
         public List<OrderDetailTmp> Details { get; set; }
